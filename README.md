@@ -243,11 +243,6 @@ Project ini dilengkapi GUI bawaan:
 
 </details>
 <details>
-<summary><b>QRIS Image tidak muncul</b></summary>
-  
- * Solusi: Buka src/qris.ts dan pastikan variabel STATIC_QRIS sudah diisi dengan string URL/Base64 QRIS yang valid.
-
-</details>
 
 <div align="center">
 Created with ❤️ by Danzz

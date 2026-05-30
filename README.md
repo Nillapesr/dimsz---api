@@ -241,9 +241,6 @@ Project ini dilengkapi GUI bawaan:
 
  * Solusi: Cek error log. Jika terlalu ketat, kamu bisa mematikan strict mode di tsconfig.json dengan mengubah "strict": true menjadi false.
 
-</details>
-<details>
-
 <div align="center">
 Created with ❤️ by Danzz
 </div>

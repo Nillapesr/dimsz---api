@@ -239,7 +239,9 @@ Project ini dilengkapi GUI bawaan:
 <details>
 <summary><b>Error TypeScript Compilation</b></summary>
 
- * Solusi: Cek error log. Jika terlalu ketat, kamu bisa mematikan strict mode di tsconfig.json dengan mengubah "strict": true menjadi false.
+ * Solusi: Cek error log. Jika terlalu ketat, kamu bisa mematikan strict mode di tsconfig.json dengan mengubah "strict": true menjadi false. * 
+
+</details>
 
 <div align="center">
 Created with ❤️ by Danzz

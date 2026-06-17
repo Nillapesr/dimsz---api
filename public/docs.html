@@ -76,11 +76,13 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
+        /* JSON Syntax Highlighting */
         .json-key { color: #f87171; font-weight: 600; }
         .json-string { color: #a3e635; }
         .json-number { color: #60a5fa; font-weight: 600; }
         .json-boolean { color: #c084fc; font-style: italic; }
         .json-null { color: #94a3b8; }
+        .json-key, .json-string, .json-number, .json-boolean, .json-null { display: inline-block; transition: all 0.3s ease; }
         
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -94,14 +96,11 @@
         .response-area.success { border-color: #10b981 !important; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1); }
         .response-area.error { border-color: #ef4444 !important; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1); }
         
-        .json-key, .json-string, .json-number, .json-boolean, .json-null { transition: all 0.3s ease; }
-        
         .status-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         .status-success { background-color: #10b981; box-shadow: 0 0 8px #10b981; animation: blink 1.5s infinite; }
         .status-error { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; animation: blink 1.5s infinite; }
         .status-waiting { background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; animation: blink 1.5s infinite; }
 
-        /* --- SOFT BUTTON CSS --- */
         .soft-btn {
             --button-raise-level: 6px;
             --press-inset: 3px;
@@ -208,6 +207,15 @@
         .category-btn.animating::after {
             content: ''; position: absolute; inset: 2px; background: white; border-radius: 0.75rem; z-index: -1;
         }
+
+        #reminder-bar.show-bar {
+            display: block;
+            animation: slideDownReminder 0.4s ease-out;
+        }
+        @keyframes slideDownReminder {
+            from { transform: translateY(-100%); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col font-sans selection:bg-fmn-blue selection:text-white antialiased">
@@ -237,6 +245,18 @@
             </a>
         </div>
     </nav>
+
+    <div id="reminder-bar" class="hidden sticky top-16 z-50 w-full bg-amber-50 border-b border-amber-200 shadow-sm transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-5 py-2.5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+                <i class="fa-solid fa-bell text-amber-600 text-lg shrink-0"></i>
+                <span id="reminder-text" class="text-sm font-medium text-amber-800 truncate"></span>
+            </div>
+            <button id="close-reminder" class="text-amber-500 hover:text-amber-800 transition-colors p-1">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
+    </div>
 
     <main class="flex-grow max-w-7xl mx-auto w-full px-5 py-8 grid lg:grid-cols-12 gap-8 items-start relative z-10 overflow-hidden">
         
@@ -392,12 +412,52 @@
 
         async function loadReminder() {
             try {
-                const req = await fetch('../src/reminder.json');
+                const req = await fetch('/src/reminder.json');
                 const data = await req.json();
-                if(data?.message) {
-                    document.getElementById('running-text').innerText = data.message.toUpperCase();
+
+                const runningText = document.getElementById('running-text');
+                if (data?.message) {
+                    runningText.innerText = data.message.toUpperCase();
+                } else {
+                    runningText.innerText = 'SYSTEM ONLINE • NO REMINDER';
                 }
-            } catch (e) {}
+
+                const bar = document.getElementById('reminder-bar');
+                const textEl = document.getElementById('reminder-text');
+                const closeBtn = document.getElementById('close-reminder');
+
+                if (!bar || !textEl || !closeBtn) return;
+
+                if (data?.barMessage) {
+                    const dismissed = localStorage.getItem('reminder-dismissed');
+                    if (dismissed === data.barMessage) {
+                        bar.classList.add('hidden');
+                        bar.classList.remove('show-bar');
+                        return;
+                    }
+
+                    textEl.innerText = data.barMessage;
+                    bar.classList.remove('hidden');
+                    bar.classList.add('show-bar');
+
+                    closeBtn.onclick = () => {
+                        bar.classList.remove('show-bar');
+                        bar.classList.add('hidden');
+                        localStorage.setItem('reminder-dismissed', data.barMessage);
+                    };
+                } else {
+                    bar.classList.add('hidden');
+                    bar.classList.remove('show-bar');
+                }
+            } catch (e) {
+                const bar = document.getElementById('reminder-bar');
+                if (bar) {
+                    bar.classList.add('hidden');
+                    bar.classList.remove('show-bar');
+                }
+                const runningText = document.getElementById('running-text');
+                if (runningText) runningText.innerText = 'SYSTEM ONLINE • FAILED TO LOAD REMINDER';
+            }
         }
 
         function terminalLog(message, type = 'info') {
@@ -493,7 +553,7 @@
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const value = Math.floor(progress * (end - start) + start);
-                element.innerText = value.toLocaleString('id-ID');
+                element.innerText = value.toLocaleString('id-ID') + (elementId.startsWith('time-') ? 'ms' : '');
                 if (progress < 1) window.requestAnimationFrame(step);
             };
             window.requestAnimationFrame(step);
@@ -636,7 +696,7 @@
                             </div>
 
                             <div id="res-area-${id}" class="response-area hidden mx-4 mb-4 rounded-xl overflow-hidden bg-term-bg border border-slate-700 shadow-inner relative max-w-[calc(100%-2rem)]">
-                                <div class="bg-term-header px-4 py-2.5 flex items-center justify-between border-b border-slate-700/50">
+                                <div class="bg-term-header px-4 py-2 flex items-center justify-between border-b border-slate-700/50">
                                     <div class="flex gap-2">
                                         <div class="w-2.5 h-2.5 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors"></div>
                                         <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors"></div>
@@ -654,8 +714,8 @@
                                          <button onclick="reset('${id}')" class="text-slate-400 hover:text-red-400 transition-transform hover:rotate-90"><i class="fa-solid fa-xmark text-sm"></i></button>
                                     </div>
                                 </div>
-                                <div class="p-4 font-mono text-[12px] min-h-[100px] max-h-[400px] overflow-y-auto custom-scrollbar bg-term-bg break-all whitespace-pre-wrap">
-                                    <div class="flex items-center gap-2 mb-3 mt-1 text-slate-400 select-none border-b border-slate-800 pb-3 flex-wrap animate-slide-in-right">
+                                <div class="p-3 font-mono text-[12px] min-h-fit max-h-[200px] overflow-y-auto custom-scrollbar bg-term-bg break-all whitespace-pre-wrap">
+                                    <div class="flex items-center gap-2 mb-2 mt-0.5 text-slate-400 select-none border-b border-slate-800 pb-2 flex-wrap animate-slide-in-right">
                                         <span class="text-green-400 font-bold">➜</span>
                                         <span class="text-slate-500">curl -X ${route.method}</span>
                                         <span class="text-sky-300 break-all">${route.endpoint}</span>
@@ -682,10 +742,10 @@
             if(grid.classList.contains('hidden')) { 
                 grid.classList.remove('hidden'); 
                 grid.classList.add('animate-fade-in-up');
-                arrow.classList.add('rotate-90');
+                arrow.classList.add('rotate-180');
             } else { 
                 grid.classList.add('hidden'); 
-                arrow.classList.remove('rotate-90');
+                arrow.classList.remove('rotate-180');
             }
         };
         
@@ -721,24 +781,29 @@
             resArea.classList.add('hidden');
             document.getElementById(`output-${id}`).innerHTML = ''; 
             document.getElementById(`status-indicator-${id}`).className = 'status-indicator status-waiting';
+            document.getElementById(`time-${id}`).innerText = '0ms';
         };
 
-        // Animasi loading ala npm (tanpa status teks, lebih kecil)
         function startNpmLoading(element, id) {
-            const spinnerChars = ['|', '/', '-', '\\'];
-            let spinnerIdx = 0;
-            let progress = 0;
-            element.classList.add('font-mono', 'text-[11px]');
+            element.innerHTML = `
+                <div class="py-1 flex items-center font-mono text-slate-400 text-xs tracking-wide select-none">
+                    <span id="loading-text-${id}"></span><span class="inline-block w-1.5 h-3.5 bg-slate-500 ml-1 animate-blink align-middle"></span>
+                </div>
+            `;
+            
+            const txt = "Loading...";
+            let i = 0;
+            const target = document.getElementById(`loading-text-${id}`);
+            
             const interval = setInterval(() => {
-                spinnerIdx = (spinnerIdx + 1) % spinnerChars.length;
-                progress = Math.min(progress + Math.random() * 8, 99);
-                if (progress >= 99) progress = 0;
-                const spinner = spinnerChars[spinnerIdx];
-                const barLength = 15;
-                const filled = Math.floor(progress / 100 * barLength);
-                const bar = '█'.repeat(filled) + '░'.repeat(barLength - filled);
-                element.innerHTML = `<span class="text-sky-400">${spinner}</span> <span class="text-slate-400">[${bar}] ${Math.floor(progress)}%</span>`;
-            }, 80);
+                if (!target) return;
+                target.textContent = txt.slice(0, i);
+                i++;
+                if (i > txt.length + 1) {
+                    i = 0; 
+                }
+            }, 250);
+
             return () => clearInterval(interval);
         }
 
@@ -762,7 +827,6 @@
             status.innerText = 'RUNNING...'; 
             status.className = 'text-[10px] font-mono font-bold text-amber-400';
 
-            // Mulai animasi loading npm
             const stopLoading = startNpmLoading(out, id);
             
             const params = {};
@@ -783,12 +847,19 @@
             terminalLog(`REQ: ${method} ${fetchUrl}`, 'warn');
 
             let startTime = Date.now();
+            let timerInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                time.innerText = `${elapsed}ms`;
+            }, 30); 
+
             try {
                 const req = await fetch(fetchUrl, opts);
-                const duration = Date.now() - startTime;
                 
+                clearInterval(timerInterval);
                 stopLoading();
-                animateCounter(`time-${id}`, 0, duration, 500);
+                
+                const duration = Date.now() - startTime;
+                animateCounter(`time-${id}`, duration - 50 > 0 ? duration - 50 : 0, duration, 200);
                 
                 if (req.ok) {
                     statusIndicator.className = 'status-indicator status-success';
@@ -826,6 +897,7 @@
                     typewriterEffect(`output-${id}`, text, 5);
                 }
             } catch (err) {
+                clearInterval(timerInterval);
                 stopLoading();
                 const duration = Date.now() - startTime;
                 time.innerText = `${duration}ms`;

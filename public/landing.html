@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KuroNeko | Dashboard</title>
+    <title>Dimsz-Api | Dashboard</title>
     <link id="favicon" rel="icon" href="">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -325,7 +325,7 @@
                     <!-- Footer -->
                     <div class="mt-8 pt-5 text-center animate-fade-up" style="animation-delay: 0.3s">
                         <p class="text-[10px] font-mono text-slate-400/80 uppercase tracking-widest">
-                            Powered by <span class="text-primary/80 font-bold">Danzz</span> &bull; 2026
+                            Powered by <span class="text-primary/80 font-bold">Dimsz</span> &bull; 2026
                         </p>
                     </div>
 
@@ -394,8 +394,8 @@
         fetch('/config')
             .then(res => res.json())
             .then(config => {
-                document.getElementById('dash-title').innerText = config.settings.apiName;
-                document.getElementById('dash-desc').innerText = config.settings.description;
+                document.getElementById('dash-title').innerText = config.settings.apiName || 'Dimsz-Api';
+                document.getElementById('dash-desc').innerText = config.settings.description || 'API Gateway Modern';
                 
                 const btnChannel = document.getElementById('btn-channel');
                 if(config.settings.channelUrl) btnChannel.href = config.settings.channelUrl;
@@ -406,8 +406,8 @@
                 else btnSource.style.display = 'none';
 
                 const thumbEl = document.getElementById('dash-thumb');
-                thumbEl.src = config.settings.thumbnail;
-                thumbEl.onerror = () => { thumbEl.src = 'https://placehold.co/600x400/f8fafc/94a3b8?text=API'; };
+                thumbEl.src = config.settings.thumbnail || 'https://placehold.co/600x400/6366f1/ffffff?text=Dimsz';
+                thumbEl.onerror = () => { thumbEl.src = 'https://placehold.co/600x400/f8fafc/94a3b8?text=Dimsz'; };
 
                 if(config.settings.favicon) document.getElementById('favicon').href = config.settings.favicon;
 
@@ -423,8 +423,8 @@
             })
             .catch(err => {
                 console.error(err);
-                document.getElementById('dash-title').innerText = "KuroNeko";
-                document.getElementById('dash-desc').innerText = "Simple Dashboard Template";
+                document.getElementById('dash-title').innerText = 'Dimsz-Api';
+                document.getElementById('dash-desc').innerText = 'API Gateway Dashboard';
                 
                 setTimeout(() => {
                     document.getElementById('loader').classList.add('hidden');

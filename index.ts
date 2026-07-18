@@ -8,7 +8,7 @@ import fs from 'fs';
 import os from 'os';
 import { loadRouter, initAutoLoad } from './src/autoload';
 const app: Application = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 2165;
 app.set('trust proxy', true);
 const configNya = [
     path.join(__dirname, 'src', 'config.json'),

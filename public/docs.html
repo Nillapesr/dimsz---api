@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KuroNeko | Documents</title>
+    <title>Dimsz-Api | Documents</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -229,14 +229,14 @@
                     <i class="fa-solid fa-arrow-left text-sm"></i>
                 </a>
                 <div class="flex flex-col justify-center">
-                    <h1 id="nav-title" class="font-bold text-lg tracking-tight text-slate-800 leading-none">KURONEKO</h1>
-                    <span class="text-[9px] font-semibold text-fmn-dark tracking-widest mt-1">API PLATFORM</span>
+                    <h1 id="nav-title" class="font-bold text-lg tracking-tight text-slate-800 leading-none">DIMSZ-API</h1>
+                    <span class="text-[9px] font-semibold text-fmn-dark tracking-widest mt-1">API GATEWAY</span>
                 </div>
             </div>
 
             <div class="hidden md:flex flex-1 max-w-xl mx-auto overflow-hidden h-7 bg-slate-100 rounded-full flex items-center relative shadow-inner mx-4 border border-slate-200">
                 <div id="running-text" class="text-slate-600 text-[10px] font-mono font-medium uppercase tracking-wider px-4 whitespace-nowrap animate-marquee inline-block min-w-full">
-                    SYSTEM ONLINE • WAITING FOR CONFIG...
+                    DIMSZ-API • SYSTEM ONLINE
                 </div>
             </div>
 
@@ -270,7 +270,7 @@
                         <div class="w-3 h-3 rounded-full bg-green-500 shadow-sm hover:scale-125 transition-transform duration-200 delay-150"></div>
                     </div>
                     <div class="flex-1 text-center">
-                        <span class="text-[10px] text-slate-400 font-medium tracking-wider">root@kuroneko ~</span>
+                        <span class="text-[10px] text-slate-400 font-medium tracking-wider">root@dimsz ~</span>
                     </div>
                 </div>
                 
@@ -321,6 +321,10 @@
             </div>
         </section>
     </main>
+
+    <footer class="text-center py-6 text-slate-400 text-xs border-t border-slate-200/50 mt-8">
+        &copy; 2026 <span class="text-fmn-dark font-semibold">Dimsz-Api</span> · All rights reserved
+    </footer>
 
     <div id="custom-toast" class="fixed bottom-6 right-6 z-[100] transform translate-y-32 opacity-0 transition-all duration-300">
         <div class="bg-slate-800 text-white px-5 py-3.5 font-medium text-sm shadow-xl rounded-xl flex items-center gap-3 border border-slate-700 animate-slide-in-right">
@@ -419,7 +423,7 @@
                 if (data?.message) {
                     runningText.innerText = data.message.toUpperCase();
                 } else {
-                    runningText.innerText = 'SYSTEM ONLINE • NO REMINDER';
+                    runningText.innerText = 'DIMSZ-API • SYSTEM ONLINE';
                 }
 
                 const bar = document.getElementById('reminder-bar');
@@ -456,7 +460,7 @@
                     bar.classList.remove('show-bar');
                 }
                 const runningText = document.getElementById('running-text');
-                if (runningText) runningText.innerText = 'SYSTEM ONLINE • FAILED TO LOAD REMINDER';
+                if (runningText) runningText.innerText = 'DIMSZ-API • SYSTEM ONLINE';
             }
         }
 
@@ -496,7 +500,7 @@
 
             await new Promise(r => setTimeout(r, 400));
             const ver = config.settings.apiVersion || '1.0.0';
-            terminalLog(`> kuroneko-api@${ver} dev`, 'system');
+            terminalLog(`> dimsz-api@${ver} dev`, 'system');
             terminalLog(`> ts-node src/index.ts`, 'system');
             await new Promise(r => setTimeout(r, 600));
             terminalLog(``, 'system'); 
@@ -520,7 +524,7 @@
             
             await new Promise(r => setTimeout(r, 400));
             terminalLog(``, 'system');
-            terminalLog(`[✓] Server running on https://api.danzy.web.id`, 'success');
+            terminalLog(`[✓] Server running on https://dimsz-api.vercel.app`, 'success');
             terminalLog(`[WATCH] Watching for changes...`, 'warn');
             
             const container = document.getElementById('api-container');
@@ -533,7 +537,7 @@
 
         function setUi(config) {
             const s = config.settings;
-            if(document.getElementById('nav-title')) document.getElementById('nav-title').innerText = s.apiName || 'API';
+            if(document.getElementById('nav-title')) document.getElementById('nav-title').innerText = s.apiName || 'DIMSZ-API';
             if(document.getElementById('stat-visitors')) {
                 document.getElementById('stat-visitors').innerText = s.visitors || '1';
                 animateCounter('stat-visitors', 0, parseInt(s.visitors) || 1, 2000);

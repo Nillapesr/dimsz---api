@@ -62,6 +62,19 @@
             "description": "Text"
           }
         ]
+      },
+      {
+        "name": "AFML Generator",
+        "endpoint": "/api/maker/afml",
+        "filename": "afml",
+        "method": "GET",
+        "params": [
+          {
+            "name": "ppurl",
+            "required": true,
+            "description": "URL foto profil"
+          }
+        ]
       }
     ],
     "random": [

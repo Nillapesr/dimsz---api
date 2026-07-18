@@ -13,7 +13,7 @@
   "tags": {
     "ai": [
       {
-        "name": "Kuroneko Chat",
+        "name": "Kuroneko Chat (Gemini)",
         "endpoint": "/api/ai/kuroneko",
         "filename": "kuroneko",
         "method": "GET",
@@ -27,6 +27,24 @@
             "name": "session",
             "required": false,
             "description": "Session ID"
+          }
+        ]
+      },
+      {
+        "name": "ChatGPT (OpenAI)",
+        "endpoint": "/api/ai/chatgpt",
+        "filename": "chatgpt",
+        "method": "GET",
+        "params": [
+          {
+            "name": "q",
+            "required": true,
+            "description": "Pertanyaan ke ChatGPT"
+          },
+          {
+            "name": "session",
+            "required": false,
+            "description": "Session ID (opsional)"
           }
         ]
       }
@@ -56,7 +74,7 @@
       }
     ],
     "tools": [
-       {
+      {
         "name": "Screenshot Web",
         "endpoint": "/api/tools/ssweb",
         "filename": "ssweb",
@@ -74,7 +92,7 @@
           }
         ]
       },
-       {
+      {
         "name": "Short URL",
         "endpoint": "/api/tools/shorturl",
         "filename": "shorturl",

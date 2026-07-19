@@ -124,6 +124,27 @@
         ]
       },
       {
+    "name": "NGL Spammer",
+    "endpoint": "/api/tools/nglspam",
+    "filename": "nglspam",
+    "method": "GET",
+    "params": [
+      {
+        "name": "username",
+        "required": true,
+        "description": "Username NGL (contoh: @username)"
+      },
+      {
+        "name": "message",
+        "required": true,
+        "description": "Pesan yang mau dikirim"
+      },
+      {
+        "name": "count",
+        "required": false,
+        "description": "Jumlah spam (max 50, default 1)"
+      },
+      {
         "name": "Short URL",
         "endpoint": "/api/tools/shorturl",
         "filename": "shorturl",

@@ -107,31 +107,6 @@
             background: #1d4f6e;
         }
 
-        .brutal-btn-icon {
-            width: 54px;
-            height: 54px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            background: #f5f0eb;
-            border: 3px solid #1a1a1a;
-            box-shadow: 5px 5px 0 0 #1a1a1a;
-            transition: all 0.06s linear;
-            flex: 1;
-            color: #1a1a1a;
-        }
-
-        .brutal-btn-icon:active {
-            transform: translate(3px, 3px);
-            box-shadow: 2px 2px 0 0 #1a1a1a;
-        }
-
-        .brutal-btn-icon:hover {
-            background: #e8e0d8;
-        }
-
         /* Thumbnail with retro filter */
         .brutal-thumb {
             border: 4px solid #1a1a1a;
@@ -148,22 +123,6 @@
                 rgba(0,0,0,0.04) 4px,
                 rgba(0,0,0,0.04) 8px
             );
-        }
-
-        /* Shimmer retro */
-        .shimmer-retro {
-            background: repeating-linear-gradient(
-                90deg,
-                #d4cbc2 0px,
-                #c4b8ad 20px,
-                #d4cbc2 40px
-            );
-            background-size: 200% 100%;
-            animation: shimmerRetro 1.2s steps(4) infinite;
-        }
-        @keyframes shimmerRetro {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
         }
 
         /* Divider */
@@ -202,6 +161,147 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #d4cbc2; }
         ::-webkit-scrollbar-thumb { background: #1a1a1a; border: 2px solid #d4cbc2; }
+
+        /* ============ LOADING SYSTEM KEREN ============ */
+        #loader-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem 1rem;
+            min-height: 380px;
+        }
+
+        /* Loading Animation - Brutal Style */
+        .loader-brutal {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .loader-brutal .block {
+            width: 20px;
+            height: 20px;
+            background: #d4cbc2;
+            border: 3px solid #1a1a1a;
+            animation: blockPulse 1.2s ease-in-out infinite;
+            transform: scale(1);
+        }
+
+        .loader-brutal .block:nth-child(1) { animation-delay: 0s; }
+        .loader-brutal .block:nth-child(2) { animation-delay: 0.15s; }
+        .loader-brutal .block:nth-child(3) { animation-delay: 0.3s; }
+        .loader-brutal .block:nth-child(4) { animation-delay: 0.45s; }
+        .loader-brutal .block:nth-child(5) { animation-delay: 0.6s; }
+
+        @keyframes blockPulse {
+            0%, 100% { 
+                background: #d4cbc2;
+                transform: scale(1);
+            }
+            50% { 
+                background: #c1121f;
+                transform: scale(1.2);
+                box-shadow: 3px 3px 0 0 #1a1a1a;
+            }
+        }
+
+        /* Progress Bar Brutal */
+        .loader-progress {
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .loader-progress .track {
+            width: 100%;
+            height: 12px;
+            background: #d4cbc2;
+            border: 3px solid #1a1a1a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-progress .track .fill {
+            height: 100%;
+            background: #c1121f;
+            width: 0%;
+            transition: width 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+        }
+
+        .loader-progress .track .fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0px,
+                transparent 6px,
+                rgba(255,255,255,0.15) 6px,
+                rgba(255,255,255,0.15) 12px
+            );
+            animation: scanProgress 0.8s linear infinite;
+        }
+
+        @keyframes scanProgress {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loader-progress .label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #1a1a1a;
+            margin-top: 0.5rem;
+        }
+
+        .loader-progress .label .percent {
+            color: #c1121f;
+            font-size: 0.8rem;
+        }
+
+        /* Status Text */
+        .loader-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #8a7f75;
+            min-height: 1.5rem;
+            text-align: center;
+            border-right: 2px solid #c1121f;
+            padding-right: 4px;
+            animation: blinkCursor 0.8s step-end infinite;
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% { border-color: #c1121f; }
+            50% { border-color: transparent; }
+        }
+
+        .loader-status .highlight {
+            color: #c1121f;
+            font-weight: 700;
+        }
+
+        /* Content fade in */
+        #content {
+            animation: brutalFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes brutalFadeIn {
+            0% { opacity: 0; transform: scale(0.98) translateY(12px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -222,21 +322,41 @@
 
         <div class="p-6 relative">
             
-            <!-- Loader -->
-            <div id="loader" class="flex flex-col gap-5">
-                <div class="w-full aspect-[16/9] brutal-border shimmer-retro"></div>
-                <div class="space-y-3 text-center">
-                    <div class="h-7 w-2/3 shimmer-retro mx-auto brutal-border"></div>
-                    <div class="h-4 w-16 shimmer-retro mx-auto brutal-border"></div>
-                    <div class="h-4 w-full max-w-xs shimmer-retro mx-auto brutal-border"></div>
+            <!-- ============ LOADING SYSTEM KEREN ============ -->
+            <div id="loader-wrapper">
+                <!-- Logo / Icon -->
+                <div class="text-center">
+                    <div class="text-5xl mb-2 text-brutal-accent">⚡</div>
+                    <div class="brutal-divider w-16 mx-auto"></div>
                 </div>
-                <div class="flex gap-3 mt-2">
-                    <div class="h-14 w-1/2 shimmer-retro brutal-border"></div>
-                    <div class="h-14 w-1/2 shimmer-retro brutal-border"></div>
+
+                <!-- Blocks Animation -->
+                <div class="loader-brutal">
+                    <div class="block"></div>
+                    <div class="block"></div>
+                    <div class="block"></div>
+                    <div class="block"></div>
+                    <div class="block"></div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="loader-progress">
+                    <div class="track">
+                        <div class="fill" id="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="label">
+                        <span>Loading</span>
+                        <span class="percent" id="progress-percent">0%</span>
+                    </div>
+                </div>
+
+                <!-- Status Text -->
+                <div class="loader-status" id="loader-status">
+                    <span class="highlight">⟳</span> INITIALIZING SYSTEM...
                 </div>
             </div>
 
-            <!-- Content -->
+            <!-- ============ CONTENT ============ -->
             <div id="content" class="hidden">
                 
                 <!-- Thumbnail -->
@@ -255,7 +375,7 @@
                     <p id="dash-desc" class="text-sm text-brutal-dark/70 font-mono uppercase tracking-wider mt-2"></p>
                 </div>
 
-                <!-- Main Buttons -->
+                <!-- Main Buttons - Tanpa social buttons -->
                 <div class="grid grid-cols-3 gap-4 mb-6">
                     <a href="/docs" class="brutal-btn brutal-btn-primary">
                         <i class="fa-solid fa-book-open"></i> Docs
@@ -266,19 +386,6 @@
                     <a href="/dimsz-ai" class="brutal-btn brutal-btn-ai">
                         <i class="fa-solid fa-brain"></i> AI
                     </a>
-                </div>
-
-                <!-- Social Buttons -->
-                <div class="flex gap-3 justify-center">
-                    <a id="btn-channel" href="#" target="_blank" class="brutal-btn-icon">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                    <a id="btn-source" href="#" target="_blank" class="brutal-btn-icon">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                    <button onclick="share()" class="brutal-btn-icon">
-                        <i class="fa-solid fa-share-nodes"></i>
-                    </button>
                 </div>
 
                 <!-- Footer -->
@@ -296,23 +403,64 @@
     </div>
 
     <script>
+        // ============ LOADING SYSTEM ============
+        const statusMessages = [
+            { text: 'INITIALIZING SYSTEM...', progress: 5 },
+            { text: 'LOADING CONFIGURATION...', progress: 15 },
+            { text: 'CONNECTING TO SERVER...', progress: 25 },
+            { text: 'FETCHING API DATA...', progress: 40 },
+            { text: 'PARSING RESPONSE...', progress: 55 },
+            { text: 'RENDERING DASHBOARD...', progress: 70 },
+            { text: 'OPTIMIZING ASSETS...', progress: 85 },
+            { text: 'READY!', progress: 100 }
+        ];
+
+        let currentIndex = 0;
+        const progressFill = document.getElementById('progress-fill');
+        const progressPercent = document.getElementById('progress-percent');
+        const statusEl = document.getElementById('loader-status');
+        const loaderWrapper = document.getElementById('loader-wrapper');
+        const content = document.getElementById('content');
+
+        function updateLoading() {
+            if (currentIndex >= statusMessages.length) {
+                // Selesai loading
+                setTimeout(() => {
+                    loaderWrapper.style.display = 'none';
+                    content.classList.remove('hidden');
+                }, 400);
+                return;
+            }
+
+            const msg = statusMessages[currentIndex];
+            const progress = msg.progress;
+            
+            // Update progress bar
+            progressFill.style.width = progress + '%';
+            progressPercent.textContent = progress + '%';
+            
+            // Update status text dengan efek typewriter
+            const highlight = progress < 100 ? '⟳' : '✓';
+            statusEl.innerHTML = `<span class="highlight">${highlight}</span> ${msg.text}`;
+            
+            // Glitch effect random
+            if (Math.random() > 0.6) {
+                statusEl.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+                setTimeout(() => {
+                    statusEl.style.transform = 'translate(0, 0)';
+                }, 100);
+            }
+
+            currentIndex++;
+            
+            // Random delay antara 200-600ms biar natural
+            const delay = 200 + Math.random() * 400;
+            setTimeout(updateLoading, delay);
+        }
+
+        // ============ FETCH CONFIG ============
         const minLoadTime = 700; 
         const startLoad = Date.now();
-
-        function share() {
-            if (navigator.share) {
-                navigator.share({
-                    title: document.title,
-                    url: window.location.href
-                }).catch(console.error);
-            } else {
-                navigator.clipboard.writeText(window.location.href);
-                const btn = document.querySelector('button[onclick="share()"]');
-                const icon = btn.querySelector('i');
-                icon.className = 'fa-solid fa-check';
-                setTimeout(() => { icon.className = 'fa-solid fa-share-nodes'; }, 1500);
-            }
-        }
 
         fetch('/config')
             .then(res => res.json())
@@ -320,27 +468,16 @@
                 document.getElementById('dash-title').innerText = config.settings.apiName || 'DIMSZ-API';
                 document.getElementById('dash-desc').innerText = config.settings.description || 'Retro Brutal Gateway';
                 
-                const btnChannel = document.getElementById('btn-channel');
-                if(config.settings.channelUrl) btnChannel.href = config.settings.channelUrl;
-                else btnChannel.style.display = 'none';
-
-                const btnSource = document.getElementById('btn-source');
-                if(config.settings.github) btnSource.href = config.settings.github;
-                else btnSource.style.display = 'none';
-
                 const thumbEl = document.getElementById('dash-thumb');
                 thumbEl.src = config.settings.thumbnail || 'https://placehold.co/600x400/d4cbc2/1a1a1a?text=BRUTAL';
                 thumbEl.onerror = () => { thumbEl.src = 'https://placehold.co/600x400/d4cbc2/1a1a1a?text=BRUTAL'; };
 
                 if(config.settings.favicon) document.getElementById('favicon').href = config.settings.favicon;
 
-                const elapsed = Date.now() - startLoad;
-                const remaining = Math.max(0, minLoadTime - elapsed);
-
+                // Mulai loading setelah config siap
                 setTimeout(() => {
-                    document.getElementById('loader').classList.add('hidden');
-                    document.getElementById('content').classList.remove('hidden');
-                }, remaining);
+                    updateLoading();
+                }, 300);
             })
             .catch(err => {
                 console.warn('Config fetch failed, using fallback.', err);
@@ -348,9 +485,8 @@
                 document.getElementById('dash-desc').innerText = 'Brutalist Dashboard';
                 
                 setTimeout(() => {
-                    document.getElementById('loader').classList.add('hidden');
-                    document.getElementById('content').classList.remove('hidden');
-                }, 800);
+                    updateLoading();
+                }, 300);
             });
     </script>
 </body>

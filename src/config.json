@@ -47,6 +47,24 @@
             "description": "Session ID (opsional)"
           }
         ]
+      },
+      {
+        "name": "Unlimited AI",
+        "endpoint": "/api/ai/unlimitedai",
+        "filename": "unlimitedai",
+        "method": "GET",
+        "params": [
+          {
+            "name": "q",
+            "required": true,
+            "description": "Pertanyaan"
+          },
+          {
+            "name": "session",
+            "required": false,
+            "description": "Session ID (opsional)"
+          }
+        ]
       }
     ],
     "maker": [

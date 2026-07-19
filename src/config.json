@@ -95,9 +95,37 @@
         "filename": "nglspam",
         "method": "GET",
         "params": [
-          { "name": "username", "required": true, "description": "Username NGL (contoh: @username)" },
-          { "name": "message", "required": true, "description": "Pesan yang mau dikirim" },
-          { "name": "count", "required": false, "description": "Jumlah spam (max 50, default 1)" }
+          { "name": "username", "required": true, "description": "Username NGL" },
+          { "name": "message", "required": true, "description": "Pesan" },
+          { "name": "count", "required": false, "description": "Jumlah spam (max 50)" }
+        ]
+      },
+      {
+        "name": "TempMail - Generate",
+        "endpoint": "/api/tools/tempmail?action=generate",
+        "filename": "tempmail",
+        "method": "GET",
+        "params": [
+          { "name": "prefix", "required": false, "description": "Custom prefix" }
+        ]
+      },
+      {
+        "name": "TempMail - Inbox",
+        "endpoint": "/api/tools/tempmail?action=inbox",
+        "filename": "tempmail",
+        "method": "GET",
+        "params": [
+          { "name": "email", "required": true, "description": "Email tujuan" }
+        ]
+      },
+      {
+        "name": "TempMail - Wait",
+        "endpoint": "/api/tools/tempmail?action=wait",
+        "filename": "tempmail",
+        "method": "GET",
+        "params": [
+          { "name": "email", "required": true, "description": "Email tujuan" },
+          { "name": "timeout", "required": false, "description": "Timeout (ms)" }
         ]
       }
     ],

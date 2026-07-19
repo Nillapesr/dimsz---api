@@ -1,110 +1,35 @@
 import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
 
-// === KONFIGURASI ===
-const DATA_DIR = path.join(process.cwd(), 'data');
-const EMAILS_FILE = path.join(DATA_DIR, 'tempmail.json');
+// === PAKE MEMORY (GAK PAKE FILE) ===
+const emails: Record<string, any> = {};
 
-// === FUNGSI BACA/TULIS ===
-function readEmails() {
-    try {
-        return JSON.parse(fs.readFileSync(EMAILS_FILE, 'utf8'));
-    } catch { return {}; }
-}
-
-function writeEmails(data: any) {
-    if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-    fs.writeFileSync(EMAILS_FILE, JSON.stringify(data, null, 2));
-}
-
-// === FUNGSI GENERATE EMAIL ===
+// === GENERATE EMAIL ===
 function generateEmail(prefix?: string): string {
-    const domains = [
-        'tempmail.com', 'temp-mail.org', 'guerrillamail.com',
-        '10minutemail.com', 'mailinator.com', 'throwaway.email',
-        'dispostable.com', 'mailnator.com', 'tempinbox.com'
-    ];
-    
-    const randomString = Math.random().toString(36).substring(2, 10);
-    const prefixPart = prefix || randomString;
+    const domains = ['tempmail.com', 'temp-mail.org', 'guerrillamail.com', 'mailinator.com'];
+    const random = Math.random().toString(36).substring(2, 10);
+    const name = prefix || random;
     const domain = domains[Math.floor(Math.random() * domains.length)];
-    
-    return `${prefixPart}@${domain}`;
-}
-
-// === FUNGSI GET MESSAGES ===
-async function getMessages(email: string): Promise<any[]> {
-    const emails = readEmails();
-    return emails[email]?.messages || [];
-}
-
-// === FUNGSI GET INBOX ===
-async function getInbox(email: string): Promise<any> {
-    const emails = readEmails();
-    return emails[email] || { messages: [], created_at: new Date().toISOString() };
-}
-
-// === FUNGSI WAIT FOR MESSAGE ===
-async function waitForMessage(email: string, timeout: number = 30000): Promise<any> {
-    const startTime = Date.now();
-    const emails = readEmails();
-    
-    return new Promise((resolve) => {
-        const checkInterval = setInterval(() => {
-            const updated = readEmails();
-            const messages = updated[email]?.messages || [];
-            
-            // Cek kalo ada pesan baru (dibandingin sama sebelumnya)
-            const oldMessages = emails[email]?.messages || [];
-            if (messages.length > oldMessages.length) {
-                clearInterval(checkInterval);
-                resolve(messages[messages.length - 1]);
-            }
-            
-            if (Date.now() - startTime > timeout) {
-                clearInterval(checkInterval);
-                resolve(null);
-            }
-        }, 2000);
-    });
-}
-
-// === FUNGSI DELETE EMAIL ===
-function deleteEmail(email: string): boolean {
-    const emails = readEmails();
-    if (!emails[email]) return false;
-    delete emails[email];
-    writeEmails(emails);
-    return true;
+    return `${name}@${domain}`;
 }
 
 // === HANDLER ===
 export default async function handler(req: Request, res: Response) {
-    const { action, email, prefix, timeout } = req.query;
+    const { action, email, prefix } = req.query;
 
-    // === GENERATE EMAIL ===
+    // === GENERATE ===
     if (action === 'generate') {
-        const generatedEmail = generateEmail(prefix as string);
-        const emails = readEmails();
-        
-        if (!emails[generatedEmail]) {
-            emails[generatedEmail] = { messages: [], created_at: new Date().toISOString() };
-            writeEmails(emails);
+        const generated = generateEmail(prefix as string);
+        if (!emails[generated]) {
+            emails[generated] = { messages: [], created_at: new Date().toISOString() };
         }
-        
         return res.json({
             status: true,
-            data: {
-                email: generatedEmail,
-                created_at: emails[generatedEmail].created_at,
-                expires_in: '1 hour'
-            },
+            data: { email: generated, created_at: emails[generated].created_at },
             message: 'Email berhasil dibuat'
         });
     }
 
-    // === GET INBOX ===
+    // === INBOX ===
     if (action === 'inbox') {
         if (!email) {
             return res.status(400).json({
@@ -112,8 +37,7 @@ export default async function handler(req: Request, res: Response) {
                 message: "Parameter 'email' diperlukan"
             });
         }
-        
-        const inbox = await getInbox(email as string);
+        const inbox = emails[email as string] || { messages: [], created_at: new Date().toISOString() };
         return res.json({
             status: true,
             data: {
@@ -121,12 +45,11 @@ export default async function handler(req: Request, res: Response) {
                 messages: inbox.messages || [],
                 total: inbox.messages?.length || 0,
                 created_at: inbox.created_at
-            },
-            message: 'Berhasil mengambil inbox'
+            }
         });
     }
 
-    // === WAIT FOR MESSAGE ===
+    // === WAIT ===
     if (action === 'wait') {
         if (!email) {
             return res.status(400).json({
@@ -134,77 +57,20 @@ export default async function handler(req: Request, res: Response) {
                 message: "Parameter 'email' diperlukan"
             });
         }
-        
-        const waitTimeout = parseInt(timeout as string) || 30000;
-        const message = await waitForMessage(email as string, waitTimeout);
-        
-        if (message) {
-            return res.json({
-                status: true,
-                data: message,
-                message: 'Pesan baru diterima'
-            });
-        } else {
-            return res.status(404).json({
-                status: false,
-                message: `Tidak ada pesan baru dalam ${waitTimeout}ms`
-            });
-        }
-    }
-
-    // === DELETE EMAIL ===
-    if (action === 'delete') {
-        if (!email) {
-            return res.status(400).json({
-                status: false,
-                message: "Parameter 'email' diperlukan"
-            });
-        }
-        
-        const deleted = deleteEmail(email as string);
-        return res.json({
-            status: deleted,
-            message: deleted ? 'Email berhasil dihapus' : 'Email tidak ditemukan'
-        });
-    }
-
-    // === SIMULASI RECEIVE MESSAGE (buat testing) ===
-    if (action === 'receive') {
-        const { from, subject, body } = req.body;
-        
-        if (!email || !from || !subject || !body) {
-            return res.status(400).json({
-                status: false,
-                message: "Parameter 'email', 'from', 'subject', 'body' diperlukan"
-            });
-        }
-        
-        const emails = readEmails();
-        if (!emails[email as string]) {
-            emails[email as string] = { messages: [], created_at: new Date().toISOString() };
-        }
-        
-        const newMessage = {
-            id: Date.now().toString(36),
-            from,
-            subject,
-            body,
-            received_at: new Date().toISOString()
-        };
-        
-        emails[email as string].messages.push(newMessage);
-        writeEmails(emails);
-        
+        const inbox = emails[email as string] || { messages: [], created_at: new Date().toISOString() };
         return res.json({
             status: true,
-            data: newMessage,
-            message: 'Pesan berhasil diterima (simulasi)'
+            data: {
+                email,
+                messages: inbox.messages || [],
+                total: inbox.messages?.length || 0
+            },
+            message: inbox.messages?.length > 0 ? 'Pesan ditemukan' : 'Belum ada pesan'
         });
     }
 
-    // === DEFAULT ===
     return res.status(400).json({
         status: false,
-        message: "Action tidak valid. Gunakan: generate, inbox, wait, delete, receive"
+        message: "Action tidak valid. Gunakan: generate, inbox, wait"
     });
 }

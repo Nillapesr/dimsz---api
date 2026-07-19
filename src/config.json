@@ -223,6 +223,34 @@
           }
         ]
       }
+    ],
+    "smm": [
+      {
+        "name": "TikTok View Booster",
+        "endpoint": "/api/smm/tiktokview",
+        "filename": "tiktokview",
+        "method": "GET",
+        "params": [
+          {
+            "name": "url",
+            "required": true,
+            "description": "URL TikTok"
+          }
+        ]
+      },
+      {
+        "name": "Cek Status Order",
+        "endpoint": "/api/smm/cekstatus",
+        "filename": "cekstatus",
+        "method": "GET",
+        "params": [
+          {
+            "name": "id",
+            "required": true,
+            "description": "ID Pesanan"
+          }
+        ]
+      }
     ]
   }
 }

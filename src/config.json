@@ -183,6 +183,21 @@
         ]
       }
     ],
+    "stalker": [
+  {
+    "name": "YouTube Stalker",
+    "endpoint": "/api/stalker/ytstalker",
+    "filename": "ytstalker",
+    "method": "GET",
+    "params": [
+      {
+        "name": "username",
+        "required": true,
+        "description": "Username YouTube"
+      }
+    ]
+  }
+],
     "search": [
       {
         "name": "Youtube Search",

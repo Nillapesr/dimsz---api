@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dimsz-AI | Brutal Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: #ece6df;
+            font-family: 'Space Mono', monospace;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            image-rendering: pixelated;
+        }
+
+        /* Brutalist Core */
+        .brutal-card {
+            background: #f5f0eb;
+            border: 4px solid #1a1a1a;
+            box-shadow: 14px 14px 0 0 #1a1a1a;
+            max-width: 720px;
+            width: 100%;
+            transition: all 0.05s linear;
+        }
+
+        .brutal-border {
+            border: 3px solid #1a1a1a;
+        }
+
+        .brutal-input {
+            background: #f5f0eb;
+            border: 3px solid #1a1a1a;
+            box-shadow: 5px 5px 0 0 #1a1a1a;
+            padding: 0.8rem 1rem 0.8rem 3rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: #1a1a1a;
+            width: 100%;
+            outline: none;
+            transition: all 0.06s linear;
+        }
+
+        .brutal-input:focus {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 0 #1a1a1a;
+        }
+
+        .brutal-input::placeholder {
+            color: #8a7f75;
+            font-style: italic;
+        }
+
+        .brutal-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1.8rem;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: #f5f0eb;
+            color: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            box-shadow: 6px 6px 0 0 #1a1a1a;
+            cursor: pointer;
+            transition: all 0.06s linear;
+            width: 100%;
+            position: relative;
+        }
+
+        .brutal-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0 0 #1a1a1a;
+        }
+
+        .brutal-btn-primary {
+            background: #c1121f;
+            color: #f5f0eb;
+            box-shadow: 6px 6px 0 0 #1a1a1a;
+            border-color: #1a1a1a;
+        }
+
+        .brutal-btn-primary:active {
+            background: #a00f1a;
+        }
+
+        .brutal-btn-primary:disabled {
+            opacity: 0.6;
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0 0 #1a1a1a;
+            cursor: not-allowed;
+        }
+
+        .brutal-dot {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #1a1a1a;
+            background: #f5f0eb;
+        }
+        .brutal-dot-red { background: #c1121f; }
+        .brutal-dot-yellow { background: #f4d03f; }
+        .brutal-dot-green { background: #2b9348; }
+
+        .brutal-badge {
+            background: #f4d03f;
+            color: #1a1a1a;
+            padding: 0.2rem 0.8rem;
+            border: 2px solid #1a1a1a;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 3px 3px 0 0 #1a1a1a;
+        }
+
+        .brutal-divider {
+            height: 3px;
+            background: #1a1a1a;
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        /* Response area */
+        .brutal-response {
+            background: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            box-shadow: inset 0 0 0 2px #f5f0eb, 6px 6px 0 0 #1a1a1a;
+            min-height: 120px;
+            max-height: 320px;
+            overflow-y: auto;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: #e2e8f0;
+            padding: 1rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .brutal-response::-webkit-scrollbar {
+            width: 8px;
+        }
+        .brutal-response::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+        .brutal-response::-webkit-scrollbar-thumb {
+            background: #f4d03f;
+            border: 2px solid #1a1a1a;
+        }
+
+        .brutal-response .prompt-label {
+            color: #f4d03f;
+            font-weight: 700;
+        }
+
+        .brutal-response .thinking {
+            color: #8a7f75;
+            font-style: italic;
+        }
+
+        .brutal-response .error {
+            color: #c1121f;
+            font-weight: 700;
+        }
+
+        /* Session input group */
+        .session-group {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .session-group .brutal-input {
+            flex: 1;
+            padding-left: 1rem;
+            font-size: 0.75rem;
+        }
+
+        .session-group .brutal-btn {
+            width: auto;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+
+        /* Typing indicator */
+        .typing-dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+            padding: 0.25rem 0;
+        }
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #f4d03f;
+            border: 1px solid #1a1a1a;
+            display: inline-block;
+            animation: blink 1.2s infinite;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes blink {
+            0%, 60%, 100% { opacity: 0.2; transform: scale(0.8); }
+            30% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Toast */
+        .brutal-toast {
+            background: #f5f0eb;
+            border: 3px solid #1a1a1a;
+            box-shadow: 8px 8px 0 0 #1a1a1a;
+            padding: 0.8rem 1.5rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #1a1a1a;
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .brutal-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .brutal-toast i {
+            margin-right: 0.75rem;
+            color: #2b9348;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .session-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .session-group .brutal-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .brutal-card {
+                box-shadow: 8px 8px 0 0 #1a1a1a;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="brutal-card">
+        <!-- Header -->
+        <div class="p-4 flex items-center justify-between border-b-4 border-brutal-dark bg-[#e8e0d8]">
+            <div class="flex gap-3">
+                <div class="brutal-dot brutal-dot-red"></div>
+                <div class="brutal-dot brutal-dot-yellow"></div>
+                <div class="brutal-dot brutal-dot-green"></div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-brutal-dark">Dimsz-AI</span>
+                <span class="brutal-badge text-[8px]">v2.0</span>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6">
+            <!-- Title -->
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-bold uppercase tracking-tight text-brutal-dark leading-none">
+                    <span class="text-brutal-accent">⚡</span> Dimsz-AI
+                </h1>
+                <div class="brutal-divider w-24 mx-auto my-2"></div>
+                <p class="text-xs text-brutal-dark/70 font-mono uppercase tracking-wider">
+                    Brutal Intelligence · Unlimited
+                </p>
+            </div>
+
+            <!-- Prompt Input -->
+            <div class="relative mb-4">
+                <i class="fa-solid fa-bolt absolute left-4 top-1/2 -translate-y-1/2 text-brutal-accent text-lg"></i>
+                <input type="text" id="prompt-input" class="brutal-input" placeholder="Enter your prompt here..." autofocus>
+            </div>
+
+            <!-- Session & Controls -->
+            <div class="session-group mb-4">
+                <input type="text" id="session-input" class="brutal-input" placeholder="Session ID (optional)" value="brutal-session">
+                <button id="new-session-btn" class="brutal-btn" title="Generate new session">
+                    <i class="fa-solid fa-rotate-right"></i> New
+                </button>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-2 gap-4 mb-5">
+                <button id="send-btn" class="brutal-btn brutal-btn-primary">
+                    <i class="fa-solid fa-paper-plane"></i> Send
+                </button>
+                <button id="clear-btn" class="brutal-btn">
+                    <i class="fa-solid fa-trash-can"></i> Clear
+                </button>
+            </div>
+
+            <!-- Quick Prompts -->
+            <div class="flex flex-wrap gap-2 mb-5 justify-center">
+                <button class="quick-prompt text-[10px] font-bold bg-[#f5f0eb] border-2 border-brutal-dark px-3 py-1.5 shadow-brutal-sm hover:bg-brutal-yellow transition-colors">
+                    <i class="fa-regular fa-lightbulb mr-1"></i> Ide Kreatif
+                </button>
+                <button class="quick-prompt text-[10px] font-bold bg-[#f5f0eb] border-2 border-brutal-dark px-3 py-1.5 shadow-brutal-sm hover:bg-brutal-yellow transition-colors">
+                    <i class="fa-regular fa-code mr-1"></i> Kode Python
+                </button>
+                <button class="quick-prompt text-[10px] font-bold bg-[#f5f0eb] border-2 border-brutal-dark px-3 py-1.5 shadow-brutal-sm hover:bg-brutal-yellow transition-colors">
+                    <i class="fa-regular fa-pen-to-square mr-1"></i> Ringkasan
+                </button>
+                <button class="quick-prompt text-[10px] font-bold bg-[#f5f0eb] border-2 border-brutal-dark px-3 py-1.5 shadow-brutal-sm hover:bg-brutal-yellow transition-colors">
+                    <i class="fa-regular fa-comment mr-1"></i> Sarkasme
+                </button>
+            </div>
+
+            <!-- Response Area -->
+            <div id="response-area" class="brutal-response">
+                <span class="thinking">▸ Ketik prompt di atas, lalu tekan Send atau Enter...</span>
+            </div>
+
+            <!-- Footer Info -->
+            <div class="mt-4 flex justify-between items-center text-[9px] font-bold text-brutal-dark/60 uppercase tracking-wider">
+                <span><i class="fa-regular fa-circle-check text-brutal-green mr-1"></i> Online</span>
+                <span>API: unlimitedai</span>
+                <span id="session-display">Sesi: brutal-session</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="brutal-toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toast-message">Copied!</span>
+    </div>
+
+    <script>
+        (function() {
+            // DOM Elements
+            const promptInput = document.getElementById('prompt-input');
+            const sessionInput = document.getElementById('session-input');
+            const sendBtn = document.getElementById('send-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const newSessionBtn = document.getElementById('new-session-btn');
+            const responseArea = document.getElementById('response-area');
+            const sessionDisplay = document.getElementById('session-display');
+            const quickPrompts = document.querySelectorAll('.quick-prompt');
+
+            // State
+            let isProcessing = false;
+            let currentSession = sessionInput.value || 'brutal-session';
+
+            // --- Helper Functions ---
+            function showToast(message, isError = false) {
+                const toast = document.getElementById('toast');
+                const msgEl = document.getElementById('toast-message');
+                const icon = toast.querySelector('i');
+                msgEl.textContent = message;
+                if (isError) {
+                    icon.className = 'fa-solid fa-circle-exclamation';
+                    icon.style.color = '#c1121f';
+                } else {
+                    icon.className = 'fa-solid fa-circle-check';
+                    icon.style.color = '#2b9348';
+                }
+                toast.classList.add('show');
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+            }
+
+            function updateSessionDisplay() {
+                currentSession = sessionInput.value.trim() || 'default';
+                sessionDisplay.textContent = `Sesi: ${currentSession}`;
+            }
+
+            function setProcessing(state) {
+                isProcessing = state;
+                sendBtn.disabled = state;
+                if (state) {
+                    sendBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing';
+                } else {
+                    sendBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send';
+                }
+            }
+
+            function addThinkingIndicator() {
+                const thinkingDiv = document.createElement('div');
+                thinkingDiv.className = 'thinking';
+                thinkingDiv.id = 'thinking-indicator';
+                thinkingDiv.innerHTML = `
+                    <span class="prompt-label">▸ THINKING</span>
+                    <span class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </span>
+                `;
+                responseArea.appendChild(thinkingDiv);
+                responseArea.scrollTop = responseArea.scrollHeight;
+            }
+
+            function removeThinkingIndicator() {
+                const indicator = document.getElementById('thinking-indicator');
+                if (indicator) indicator.remove();
+            }
+
+            function displayResponse(text, isError = false) {
+                removeThinkingIndicator();
+                const responseDiv = document.createElement('div');
+                responseDiv.className = 'response-entry';
+                if (isError) {
+                    responseDiv.innerHTML = `<span class="error">✖ ERROR</span> ${text}`;
+                } else {
+                    // Simple formatting: treat ">" as prompt label
+                    const formatted = text.replace(/^> /gm, '<span class="prompt-label">▸ </span>');
+                    responseDiv.innerHTML = formatted;
+                }
+                responseArea.appendChild(responseDiv);
+                responseArea.scrollTop = responseArea.scrollHeight;
+            }
+
+            function clearResponse() {
+                responseArea.innerHTML = `<span class="thinking">▸ Siap menerima perintah baru...</span>`;
+            }
+
+            // --- Core API Call ---
+            async function sendPrompt(prompt, session) {
+                if (!prompt.trim()) {
+                    showToast('Prompt tidak boleh kosong!', true);
+                    return;
+                }
+
+                if (isProcessing) return;
+
+                // Encode prompt and session
+                const encodedPrompt = encodeURIComponent(prompt.trim());
+                const encodedSession = encodeURIComponent(session || 'default');
+                const apiUrl = `https://api-dimsz.myvnc.com/api/ai/unlimitedai?q=${encodedPrompt}&session=${encodedSession}`;
+
+                setProcessing(true);
+                addThinkingIndicator();
+
+                try {
+                    const response = await fetch(apiUrl);
+                    
+                    if (!response.ok) {
+                        let errorMsg = `HTTP ${response.status}`;
+                        try {
+                            const errorData = await response.json();
+                            errorMsg = errorData.message || errorData.error || errorMsg;
+                        } catch (e) {
+                            // Ignore
+                        }
+                        throw new Error(errorMsg);
+                    }
+
+                    // Check content-type
+                    const contentType = response.headers.get('content-type') || '';
+                    let resultText;
+
+                    if (contentType.includes('application/json')) {
+                        const json = await response.json();
+                        // Try to extract meaningful text from common API response structures
+                        resultText = json.response || json.result || json.data || json.message || JSON.stringify(json, null, 2);
+                    } else {
+                        resultText = await response.text();
+                    }
+
+                    // If result is empty or just whitespace
+                    if (!resultText || !resultText.trim()) {
+                        resultText = '[Respons kosong dari server]';
+                    }
+
+                    displayResponse(resultText);
+                    showToast('Sukses!');
+
+                } catch (error) {
+                    console.error('API Error:', error);
+                    let errorMessage = error.message || 'Terjadi kesalahan pada server.';
+                    // Humanize common errors
+                    if (errorMessage.includes('400')) errorMessage = 'Bad Request: Periksa prompt Anda.';
+                    else if (errorMessage.includes('429')) errorMessage = 'Too Many Requests: Coba lagi nanti.';
+                    else if (errorMessage.includes('500')) errorMessage = 'Server Error: Coba lagi nanti.';
+                    else if (errorMessage.includes('Failed to fetch')) errorMessage = 'Koneksi gagal: Periksa jaringan Anda.';
+                    
+                    displayResponse(errorMessage, true);
+                    showToast(`Error: ${errorMessage}`, true);
+                } finally {
+                    setProcessing(false);
+                    removeThinkingIndicator();
+                }
+            }
+
+            // --- Event Listeners ---
+
+            // Send button
+            sendBtn.addEventListener('click', () => {
+                const prompt = promptInput.value;
+                const session = sessionInput.value.trim() || 'default';
+                sendPrompt(prompt, session);
+            });
+
+            // Enter key
+            promptInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendBtn.click();
+                }
+            });
+
+            // Clear button
+            clearBtn.addEventListener('click', () => {
+                clearResponse();
+                promptInput.value = '';
+                promptInput.focus();
+                showToast('Bersih!');
+            });
+
+            // New session
+            newSessionBtn.addEventListener('click', () => {
+                const newId = 'sesi-' + Math.random().toString(36).substring(2, 8);
+                sessionInput.value = newId;
+                updateSessionDisplay();
+                clearResponse();
+                showToast(`Sesi baru: ${newId}`);
+                promptInput.focus();
+            });
+
+            // Session input change
+            sessionInput.addEventListener('input', updateSessionDisplay);
+
+            // Quick prompts
+            quickPrompts.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    let prompt = '';
+                    const text = btn.textContent.trim();
+                    if (text.includes('Ide Kreatif')) prompt = 'Berikan saya 3 ide kreatif untuk proyek AI dengan gaya brutalisme.';
+                    else if (text.includes('Kode Python')) prompt = 'Tulis fungsi Python untuk menghitung faktor prima dari sebuah angka.';
+                    else if (text.includes('Ringkasan')) prompt = 'Ringkaskan konsep kecerdasan buatan dalam 1 paragraf.';
+                    else if (text.includes('Sarkasme')) prompt = 'Jelaskan kenapa kopi lebih baik dari manusia, dengan gaya sarkastik.';
+                    else prompt = text;
+                    
+                    promptInput.value = prompt;
+                    promptInput.focus();
+                    // Auto send after short delay
+                    setTimeout(() => sendBtn.click(), 300);
+                });
+            });
+
+            // --- Init ---
+            updateSessionDisplay();
+            clearResponse();
+            promptInput.focus();
+
+            // Handle API 400 error from initial fetch info
+            console.log('Dimsz-AI Brutal v2.0 siap!');
+
+            // Optional: Test API with a default greeting on load?
+            // Uncomment below to send a welcome prompt on load
+            /*
+            setTimeout(() => {
+                sendPrompt('Halo! Perkenalkan diri Anda sebagai AI brutal.', currentSession);
+            }, 800);
+            */
+
+        })();
+    </script>
+
+</body>
+</html>

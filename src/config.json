@@ -66,6 +66,20 @@
         "filename": "waifu",
         "method": "GET",
         "params": []
+      },
+      {
+        "name": "Random Quotes",
+        "endpoint": "/api/random/quote",
+        "filename": "quote",
+        "method": "GET",
+        "params": []
+      },
+      {
+        "name": "Random Jokes",
+        "endpoint": "/api/random/joke",
+        "filename": "joke",
+        "method": "GET",
+        "params": []
       }
     ],
     "tools": [
@@ -109,6 +123,83 @@
           { "name": "action", "required": true, "description": "generate | inbox | wait" },
           { "name": "email", "required": false, "description": "Email (untuk inbox/wait)" },
           { "name": "prefix", "required": false, "description": "Custom prefix (untuk generate)" }
+        ]
+      },
+      {
+        "name": "Translate Text",
+        "endpoint": "/api/tools/translate",
+        "filename": "translate",
+        "method": "GET",
+        "params": [
+          { "name": "text", "required": true, "description": "Teks yang akan diterjemahkan" },
+          { "name": "target", "required": false, "description": "Bahasa target (default: id)" }
+        ]
+      },
+      {
+        "name": "QR Code Generator",
+        "endpoint": "/api/tools/qrcode",
+        "filename": "qrcode",
+        "method": "GET",
+        "params": [
+          { "name": "text", "required": true, "description": "Text atau URL untuk dijadikan QR Code" },
+          { "name": "size", "required": false, "description": "Ukuran QR Code (default: 300)" }
+        ]
+      },
+      {
+        "name": "Image to Text (OCR)",
+        "endpoint": "/api/tools/ocr",
+        "filename": "ocr",
+        "method": "GET",
+        "params": [
+          { "name": "url", "required": true, "description": "URL gambar yang akan di OCR" }
+        ]
+      },
+      {
+        "name": "Weather Info",
+        "endpoint": "/api/tools/weather",
+        "filename": "weather",
+        "method": "GET",
+        "params": [
+          { "name": "city", "required": true, "description": "Nama kota" }
+        ]
+      },
+      {
+        "name": "Hash Generator",
+        "endpoint": "/api/tools/hash",
+        "filename": "hash",
+        "method": "GET",
+        "params": [
+          { "name": "text", "required": true, "description": "Teks yang akan di-hash" },
+          { "name": "algorithm", "required": false, "description": "md5 | sha1 | sha256 | sha512 (default: md5)" }
+        ]
+      },
+      {
+        "name": "Base64 Encoder/Decoder",
+        "endpoint": "/api/tools/base64",
+        "filename": "base64",
+        "method": "GET",
+        "params": [
+          { "name": "text", "required": true, "description": "Teks yang akan diproses" },
+          { "name": "action", "required": false, "description": "encode | decode (default: encode)" }
+        ]
+      },
+      {
+        "name": "Domain Checker",
+        "endpoint": "/api/tools/domaincheck",
+        "filename": "domaincheck",
+        "method": "GET",
+        "params": [
+          { "name": "domain", "required": true, "description": "Domain yang akan dicek" }
+        ]
+      },
+      {
+        "name": "Text to Speech",
+        "endpoint": "/api/tools/tts",
+        "filename": "tts",
+        "method": "GET",
+        "params": [
+          { "name": "text", "required": true, "description": "Teks yang akan diubah menjadi suara" },
+          { "name": "lang", "required": false, "description": "Bahasa (default: id)" }
         ]
       }
     ],

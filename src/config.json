@@ -101,31 +101,14 @@
         ]
       },
       {
-        "name": "TempMail - Generate",
-        "endpoint": "/api/tools/tempmail?action=generate",
+        "name": "TempMail",
+        "endpoint": "/api/tools/tempmail",
         "filename": "tempmail",
         "method": "GET",
         "params": [
-          { "name": "prefix", "required": false, "description": "Custom prefix" }
-        ]
-      },
-      {
-        "name": "TempMail - Inbox",
-        "endpoint": "/api/tools/tempmail?action=inbox",
-        "filename": "tempmail",
-        "method": "GET",
-        "params": [
-          { "name": "email", "required": true, "description": "Email tujuan" }
-        ]
-      },
-      {
-        "name": "TempMail - Wait",
-        "endpoint": "/api/tools/tempmail?action=wait",
-        "filename": "tempmail",
-        "method": "GET",
-        "params": [
-          { "name": "email", "required": true, "description": "Email tujuan" },
-          { "name": "timeout", "required": false, "description": "Timeout (ms)" }
+          { "name": "action", "required": true, "description": "generate | inbox | wait" },
+          { "name": "email", "required": false, "description": "Email (untuk inbox/wait)" },
+          { "name": "prefix", "required": false, "description": "Custom prefix (untuk generate)" }
         ]
       }
     ],

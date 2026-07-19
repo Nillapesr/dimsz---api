@@ -3,378 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dimsz-Api | Dashboard</title>
+    <title>Dimsz-Api | Brutal</title>
     <link id="favicon" rel="icon" href="">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { 
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                        display: ['"Space Grotesk"', 'sans-serif']
+                        mono: ['"Space Mono"', 'monospace'],
                     },
                     colors: {
-                        'primary': '#6366f1',
-                        'secondary': '#a855f7',
-                        'dark': '#0f172a',
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #f1f5f9 1px, transparent 1px), linear-gradient(to bottom, #f1f5f9 1px, transparent 1px)",
-                    },
-                    animation: {
-                        'blob': 'blob 7s infinite',
-                        'fade-up': 'fadeUp 0.5s ease-out forwards',
-                    },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
-                        },
-                        fadeUp: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
+                        'brutal-bg': '#f5f0eb',
+                        'brutal-dark': '#1a1a1a',
+                        'brutal-accent': '#c1121f',
+                        'brutal-yellow': '#f4d03f',
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #fafafa; }
-        .bg-grid-size { background-size: 40px 40px; }
-        
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        
-        .shimmer {
-            background: linear-gradient(90deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-        /* --- SOFT BUTTON CSS START --- */
-        .soft-btn {
-            --button-raise-level: 6px; 
-            --press-inset: 3px;
-            --press-compensated: 0px;
-            --button-hover-pressure: 1.2;
-            --transform-speed: 160ms;
-            --radius: 16px;
-            --border-width: 1px;
-            --glare-rgb: 255, 255, 255;
-            --glare-alpha: 0.15;
-            --glare-width: 20;
-
-            position: relative;
-            border: none;
-            background: transparent;
-            padding: 0;
-            cursor: pointer;
-            user-select: none;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-            display: block;
-            text-decoration: none;
-        }
-
-        .soft-btn__wrapper {
-            position: relative;
-            display: block;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-        }
-
-        /* Side wall */
-        .soft-btn__wrapper::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: calc(100% - var(--button-raise-level));
-            background: var(--side-color);
-            border-radius: var(--radius);
-            z-index: 1;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        /* Face */
-        .soft-btn__content {
-            position: relative;
-            width: 100%;
-            height: calc(100% - var(--button-raise-level));
-            background: var(--surface-color);
-            color: var(--text-color);
-            border-radius: var(--radius);
+        /* Reset & Base Brutalism */
+        * { box-sizing: border-box; }
+        body { 
+            background: #ece6df; 
+            font-family: 'Space Mono', monospace;
+            margin: 0;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            transform: translateY(0);
-            transition: transform var(--transform-speed) ease-out;
-            will-change: transform;
-            backface-visibility: hidden;
-            transform-origin: center;
-            z-index: 2;
-            border: var(--border-width) solid var(--border-color);
+            padding: 1rem;
+            image-rendering: pixelated;
         }
 
-        .soft-btn__inner {
-            display: inline-flex;
+        /* Brutalist Card */
+        .brutal-card {
+            background: #f5f0eb;
+            border: 4px solid #1a1a1a;
+            box-shadow: 12px 12px 0 0 #1a1a1a;
+            max-width: 440px;
+            width: 100%;
+            transition: all 0.05s linear;
+            position: relative;
+        }
+
+        /* Brutalist Elements */
+        .brutal-border {
+            border: 3px solid #1a1a1a;
+        }
+
+        .brutal-btn {
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            z-index: 4;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            background: #f5f0eb;
+            color: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            box-shadow: 5px 5px 0 0 #1a1a1a;
+            cursor: pointer;
+            transition: all 0.06s linear;
+            text-decoration: none;
             width: 100%;
             height: 100%;
-            pointer-events: none;
+            position: relative;
         }
 
-        /* Hover deformation */
-        .soft-btn--middle .soft-btn__content { transform: translateY(calc(1px * var(--button-hover-pressure))); }
-        .soft-btn--left .soft-btn__content { transform: skewY(calc(-1deg * var(--button-hover-pressure))); }
-        .soft-btn--right .soft-btn__content { transform: skewY(calc(1deg * var(--button-hover-pressure))); }
-
-        /* Pressed */
-        .soft-btn--active .soft-btn__content {
-            transform: translateY(var(--press-inset));
-            transition: transform calc(var(--transform-speed) * 0.8) ease-out;
-        }
-        
-        .soft-btn--active.soft-btn--left .soft-btn__content {
-            transform: skewY(calc(-1deg * var(--button-hover-pressure))) translateY(var(--press-inset));
-        }
-        
-        .soft-btn--active.soft-btn--right .soft-btn__content {
-            transform: skewY(calc(1deg * var(--button-hover-pressure))) translateY(var(--press-inset));
+        .brutal-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 1px 1px 0 0 #1a1a1a;
         }
 
-        /* Glare layer */
-        .soft-btn__content::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            pointer-events: none;
-            background: linear-gradient(90deg,
-                rgba(var(--glare-rgb), 0) calc(50% - var(--glare-width) * 1%),
-                rgba(var(--glare-rgb), calc(var(--glare-alpha) * 0.5)) calc(50% - var(--glare-width) * 0.5%),
-                rgba(var(--glare-rgb), var(--glare-alpha)) 50%,
-                rgba(var(--glare-rgb), calc(var(--glare-alpha) * 0.5)) calc(50% + var(--glare-width) * 0.5%),
-                rgba(var(--glare-rgb), 0) calc(50% + var(--glare-width) * 1%));
+        .brutal-btn-primary {
+            background: #c1121f;
+            color: #f5f0eb;
+            box-shadow: 5px 5px 0 0 #1a1a1a;
+            border-color: #1a1a1a;
+        }
+
+        .brutal-btn-primary:active {
+            background: #a00f1a;
+        }
+
+        .brutal-btn-icon {
+            width: 54px;
+            height: 54px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            background: #f5f0eb;
+            border: 3px solid #1a1a1a;
+            box-shadow: 5px 5px 0 0 #1a1a1a;
+            transition: all 0.06s linear;
+            flex: 1;
+            color: #1a1a1a;
+        }
+
+        .brutal-btn-icon:active {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 0 #1a1a1a;
+        }
+
+        .brutal-btn-icon:hover {
+            background: #e8e0d8;
+        }
+
+        /* Thumbnail with retro filter */
+        .brutal-thumb {
+            border: 4px solid #1a1a1a;
+            filter: contrast(1.1) saturate(0.9) brightness(0.95);
+            image-rendering: crisp-edges;
+            background: #d4cbc2;
+        }
+
+        .brutal-thumb-overlay {
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(0,0,0,0.02) 0px,
+                rgba(0,0,0,0.02) 4px,
+                rgba(0,0,0,0.04) 4px,
+                rgba(0,0,0,0.04) 8px
+            );
+        }
+
+        /* Shimmer retro */
+        .shimmer-retro {
+            background: repeating-linear-gradient(
+                90deg,
+                #d4cbc2 0px,
+                #c4b8ad 20px,
+                #d4cbc2 40px
+            );
             background-size: 200% 100%;
-            background-position: 50% 50%;
-            opacity: 0;
-            transition: opacity 160ms ease, background-position var(--transform-speed) ease;
-            z-index: 3;
+            animation: shimmerRetro 1.2s steps(4) infinite;
+        }
+        @keyframes shimmerRetro {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        .soft-btn--right .soft-btn__content::after { opacity: 1; background-position: 0% 50%; }
-        .soft-btn--middle .soft-btn__content::after { opacity: 1; background-position: 50% 50%; }
-        .soft-btn--left .soft-btn__content::after { opacity: 1; background-position: 100% 50%; }
-        .soft-btn--active .soft-btn__content::after { opacity: 1; background: rgba(var(--glare-rgb), var(--glare-alpha)); background-position: 50% 50%; }
+        /* Divider */
+        .brutal-divider {
+            height: 4px;
+            background: #1a1a1a;
+            width: 60px;
+            margin: 0.5rem auto;
+        }
 
-        /* VARIANTS MAPPING - Modernized */
-        .variant-solid {
-            --surface-color: #6366f1; 
-            --side-color: #4f46e5;   
-            --text-color: #ffffff;
-            --border-color: rgba(255, 255, 255, 0.1);
+        /* Badge retro */
+        .brutal-badge {
+            background: #f4d03f;
+            color: #1a1a1a;
+            padding: 0.2rem 0.8rem;
+            border: 2px solid #1a1a1a;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 3px 3px 0 0 #1a1a1a;
         }
-        .variant-outline {
-            --surface-color: #ffffff;
-            --side-color: #e2e8f0;
-            --text-color: #334155;
-            --border-color: #e2e8f0;
-            --border-width: 1px;
+
+        /* Dot retro */
+        .brutal-dot {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #1a1a1a;
+            background: #f5f0eb;
         }
-        .variant-steel {
-            --surface-color: #f8fafc;
-            --side-color: #e2e8f0;
-            --text-color: #475569;
-            --border-color: #e2e8f0;
-            --border-width: 1px;
-        }
-        /* --- SOFT BUTTON CSS END --- */
+        .brutal-dot-red { background: #c1121f; }
+        .brutal-dot-yellow { background: #f4d03f; }
+        .brutal-dot-green { background: #2b9348; }
+
+        /* Scroll */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #d4cbc2; }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border: 2px solid #d4cbc2; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center font-mono p-4 selection:bg-primary/20 selection:text-primary relative overflow-hidden bg-grid-pattern bg-grid-size">
+<body>
 
-    <!-- Ambient Background -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-primary/10 rounded-full mix-blend-multiply filter blur-[80px] opacity-70 animate-blob"></div>
-        <div class="absolute top-[10%] right-[20%] w-[400px] h-[400px] bg-secondary/10 rounded-full mix-blend-multiply filter blur-[80px] opacity-70 animate-blob" style="animation-delay: 2s"></div>
-        <div class="absolute -bottom-[10%] left-[30%] w-[600px] h-[600px] bg-blue-300/10 rounded-full mix-blend-multiply filter blur-[80px] opacity-70 animate-blob" style="animation-delay: 4s"></div>
-    </div>
-
-    <div class="relative z-10 w-full max-w-[420px]">
+    <div class="brutal-card">
         
-        <!-- Modern Glass Card Container -->
-        <div class="bg-white/70 backdrop-blur-2xl border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-3xl overflow-hidden transition-all duration-300">
+        <!-- Top Bar - Retro Dots -->
+        <div class="p-4 flex items-center justify-between border-b-4 border-brutal-dark bg-[#e8e0d8]">
+            <div class="flex gap-3">
+                <div class="brutal-dot brutal-dot-red"></div>
+                <div class="brutal-dot brutal-dot-yellow"></div>
+                <div class="brutal-dot brutal-dot-green"></div>
+            </div>
+            <div class="text-[10px] font-bold uppercase tracking-widest text-brutal-dark bg-[#f5f0eb] px-3 py-1 border-2 border-brutal-dark flex items-center gap-1.5">
+                <i class="fa-solid fa-circle text-[8px] text-brutal-accent"></i> Live
+            </div>
+        </div>
+
+        <div class="p-6 relative">
             
-            <!-- Window Controls -->
-            <div class="bg-white/40 border-b border-slate-100/50 px-5 py-4 flex items-center select-none">
-                <div class="flex gap-2.5 group cursor-pointer">
-                    <div class="w-3 h-3 rounded-full bg-red-400 shadow-sm group-hover:bg-red-500 transition-colors"></div>
-                    <div class="w-3 h-3 rounded-full bg-yellow-400 shadow-sm group-hover:bg-yellow-500 transition-colors"></div>
-                    <div class="w-3 h-3 rounded-full bg-green-400 shadow-sm group-hover:bg-green-500 transition-colors"></div>
+            <!-- Loader -->
+            <div id="loader" class="flex flex-col gap-5">
+                <div class="w-full aspect-[16/9] brutal-border shimmer-retro"></div>
+                <div class="space-y-3 text-center">
+                    <div class="h-7 w-2/3 shimmer-retro mx-auto brutal-border"></div>
+                    <div class="h-4 w-16 shimmer-retro mx-auto brutal-border"></div>
+                    <div class="h-4 w-full max-w-xs shimmer-retro mx-auto brutal-border"></div>
+                </div>
+                <div class="flex gap-3 mt-2">
+                    <div class="h-14 w-1/2 shimmer-retro brutal-border"></div>
+                    <div class="h-14 w-1/2 shimmer-retro brutal-border"></div>
                 </div>
             </div>
 
-            <div class="p-7 relative">
+            <!-- Content -->
+            <div id="content" class="hidden">
                 
-                <!-- Loader -->
-                <div id="loader" class="flex flex-col gap-4">
-                    <div class="w-full aspect-[16/9] border border-slate-100 shimmer rounded-2xl"></div>
-                    <div class="space-y-3 mt-3">
-                        <div class="h-6 w-2/3 shimmer rounded-md mx-auto"></div>
-                        <div class="h-1 w-12 shimmer rounded-full mx-auto"></div>
-                        <div class="h-3 w-full shimmer rounded-md mt-2"></div>
-                        <div class="h-3 w-5/6 shimmer rounded-md mx-auto"></div>
-                    </div>
-                    <div class="flex gap-3 mt-4">
-                        <div class="h-14 w-1/2 shimmer rounded-xl"></div>
-                        <div class="h-14 w-1/2 shimmer rounded-xl"></div>
+                <!-- Thumbnail -->
+                <div class="relative w-full aspect-[16/9] brutal-thumb overflow-hidden mb-6 shadow-[6px_6px_0_0_#1a1a1a]">
+                    <div class="absolute inset-0 brutal-thumb-overlay z-10"></div>
+                    <img id="dash-thumb" src="" alt="Cover" class="w-full h-full object-cover">
+                    <div class="absolute bottom-3 left-3 z-20 brutal-badge flex items-center gap-1.5">
+                        <i class="fa-solid fa-cassette-tape text-[10px]"></i> VHS
                     </div>
                 </div>
 
-                <div id="content" class="hidden">
-                    
-                    <!-- Thumbnail -->
-                    <div class="relative w-full aspect-[16/9] ring-1 ring-slate-900/5 shadow-sm rounded-2xl overflow-hidden group mb-7 bg-slate-50">
-                        <div class="absolute inset-0 bg-primary/5 z-10 group-hover:bg-transparent transition-all duration-500"></div>
-                        <img id="dash-thumb" src="" alt="Cover" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out">
-                    </div>
-
-                    <!-- Texts -->
-                    <div class="mb-8 text-center animate-fade-up">
-                        <h1 id="dash-title" class="text-3xl font-display font-bold text-slate-800 mb-3 tracking-tight"></h1>
-                        <div class="flex justify-center mb-4">
-                            <div class="h-1.5 w-8 bg-primary/80 rounded-full"></div>
-                        </div>
-                        <p id="dash-desc" class="text-[13px] font-mono text-slate-500 leading-relaxed px-2"></p>
-                    </div>
-
-                    <!-- Main Buttons -->
-                    <div class="grid grid-cols-2 gap-4 mb-6 animate-fade-up h-14" style="animation-delay: 0.1s">
-                        
-                        <a href="/docs" class="soft-btn variant-solid w-full h-full">
-                            <span class="soft-btn__wrapper">
-                                <span class="soft-btn__content">
-                                    <span class="soft-btn__inner">
-                                        <i class="fa-solid fa-book-journal-whills text-sm"></i>
-                                        <span class="font-bold text-sm tracking-wide">Docs</span>
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
-                        
-                        <a href="/stats" class="soft-btn variant-outline w-full h-full">
-                            <span class="soft-btn__wrapper">
-                                <span class="soft-btn__content">
-                                    <span class="soft-btn__inner">
-                                        <i class="fa-solid fa-chart-pie text-secondary"></i>
-                                        <span class="font-bold text-sm tracking-wide text-slate-700">Stats</span>
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
-                    </div>
-
-                    <!-- Social Buttons -->
-                    <div class="flex gap-3 justify-center animate-fade-up h-12" style="animation-delay: 0.2s">
-                        <a id="btn-channel" href="#" target="_blank" class="flex-1 soft-btn variant-steel">
-                            <span class="soft-btn__wrapper">
-                                <span class="soft-btn__content">
-                                    <span class="soft-btn__inner">
-                                        <i class="fa-brands fa-whatsapp text-[17px] text-green-500"></i>
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
-
-                        <a id="btn-source" href="#" target="_blank" class="flex-1 soft-btn variant-steel">
-                            <span class="soft-btn__wrapper">
-                                <span class="soft-btn__content">
-                                    <span class="soft-btn__inner">
-                                        <i class="fa-brands fa-github text-[17px] text-slate-700"></i>
-                                    </span>
-                                </span>
-                            </span>
-                        </a>
-
-                        <button onclick="share()" class="flex-1 soft-btn variant-steel">
-                            <span class="soft-btn__wrapper">
-                                <span class="soft-btn__content">
-                                    <span class="soft-btn__inner">
-                                        <i class="fa-solid fa-share-nodes text-[17px] text-blue-500"></i>
-                                    </span>
-                                </span>
-                            </span>
-                        </button>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="mt-8 pt-5 text-center animate-fade-up" style="animation-delay: 0.3s">
-                        <p class="text-[10px] font-mono text-slate-400/80 uppercase tracking-widest">
-                            Powered by <span class="text-primary/80 font-bold">Danzz</span> &bull; 2026
-                        </p>
-                    </div>
-
+                <!-- Texts -->
+                <div class="text-center mb-7">
+                    <h1 id="dash-title" class="text-3xl font-bold uppercase tracking-tight text-brutal-dark leading-none"></h1>
+                    <div class="brutal-divider"></div>
+                    <p id="dash-desc" class="text-sm text-brutal-dark/70 font-mono uppercase tracking-wider mt-2"></p>
                 </div>
+
+                <!-- Main Buttons -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <a href="/docs" class="brutal-btn brutal-btn-primary">
+                        <i class="fa-solid fa-book-open"></i> Docs
+                    </a>
+                    <a href="/stats" class="brutal-btn">
+                        <i class="fa-solid fa-chart-simple"></i> Stats
+                    </a>
+                </div>
+
+                <!-- Social Buttons -->
+                <div class="flex gap-3 justify-center">
+                    <a id="btn-channel" href="#" target="_blank" class="brutal-btn-icon">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <a id="btn-source" href="#" target="_blank" class="brutal-btn-icon">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <button onclick="share()" class="brutal-btn-icon">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </button>
+                </div>
+
+                <!-- Footer -->
+                <div class="mt-8 pt-4 text-center border-t-4 border-brutal-dark/20">
+                    <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-brutal-dark/60 flex items-center justify-center gap-3">
+                        <span class="w-6 h-[3px] bg-brutal-dark/30 inline-block"></span>
+                        Powered by <span class="text-brutal-accent bg-[#f5f0eb] px-2 py-0.5 border-2 border-brutal-dark">Danzz</span>
+                        <span class="w-6 h-[3px] bg-brutal-dark/30 inline-block"></span>
+                    </p>
+                    <p class="text-[10px] text-brutal-dark/40 mt-1.5 font-mono">// 2026 //</p>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
-        const minLoadTime = 800; 
+        const minLoadTime = 700; 
         const startLoad = Date.now();
-
-        // --- BUTTON PHYSICS LOGIC START ---
-        function initSoftButtons() {
-            const buttons = document.querySelectorAll('.soft-btn');
-
-            buttons.forEach(btn => {
-                const handlePointer = (e) => {
-                    if (e.type === 'pointerleave' || e.type === 'pointercancel' || e.type === 'pointerup') {
-                        btn.classList.remove('soft-btn--active', 'soft-btn--left', 'soft-btn--right', 'soft-btn--middle');
-                        try { btn.releasePointerCapture(e.pointerId); } catch(err){}
-                        return;
-                    }
-
-                    const rect = btn.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const w = rect.width;
-
-                    if(e.type === 'pointerdown') {
-                        btn.classList.add('soft-btn--active');
-                        try { btn.setPointerCapture(e.pointerId); } catch(err){}
-                    }
-
-                    btn.classList.remove('soft-btn--left', 'soft-btn--right', 'soft-btn--middle');
-                    if (x < w * 0.33) btn.classList.add('soft-btn--left');
-                    else if (x > w * 0.66) btn.classList.add('soft-btn--right');
-                    else btn.classList.add('soft-btn--middle');
-                };
-
-                btn.addEventListener('pointerdown', handlePointer);
-                btn.addEventListener('pointermove', (e) => {
-                    if(btn.classList.contains('soft-btn--active')) handlePointer(e);
-                });
-                btn.addEventListener('pointerup', handlePointer);
-                btn.addEventListener('pointerleave', handlePointer);
-                btn.addEventListener('pointercancel', handlePointer);
-            });
-        }
-        // --- BUTTON PHYSICS LOGIC END ---
 
         function share() {
             if (navigator.share) {
@@ -384,18 +293,18 @@
                 }).catch(console.error);
             } else {
                 navigator.clipboard.writeText(window.location.href);
-                const inner = document.querySelector('button[onclick="share()"] .soft-btn__inner');
-                const originalText = inner.innerHTML;
-                inner.innerHTML = '<i class="fa-solid fa-check text-green-500"></i>';
-                setTimeout(() => { inner.innerHTML = originalText; }, 1500);
+                const btn = document.querySelector('button[onclick="share()"]');
+                const icon = btn.querySelector('i');
+                icon.className = 'fa-solid fa-check';
+                setTimeout(() => { icon.className = 'fa-solid fa-share-nodes'; }, 1500);
             }
         }
 
         fetch('/config')
             .then(res => res.json())
             .then(config => {
-                document.getElementById('dash-title').innerText = config.settings.apiName;
-                document.getElementById('dash-desc').innerText = config.settings.description;
+                document.getElementById('dash-title').innerText = config.settings.apiName || 'DIMSZ-API';
+                document.getElementById('dash-desc').innerText = config.settings.description || 'Retro Brutal Gateway';
                 
                 const btnChannel = document.getElementById('btn-channel');
                 if(config.settings.channelUrl) btnChannel.href = config.settings.channelUrl;
@@ -406,8 +315,8 @@
                 else btnSource.style.display = 'none';
 
                 const thumbEl = document.getElementById('dash-thumb');
-                thumbEl.src = config.settings.thumbnail;
-                thumbEl.onerror = () => { thumbEl.src = 'https://placehold.co/600x400/f8fafc/94a3b8?text=API'; };
+                thumbEl.src = config.settings.thumbnail || 'https://placehold.co/600x400/d4cbc2/1a1a1a?text=BRUTAL';
+                thumbEl.onerror = () => { thumbEl.src = 'https://placehold.co/600x400/d4cbc2/1a1a1a?text=BRUTAL'; };
 
                 if(config.settings.favicon) document.getElementById('favicon').href = config.settings.favicon;
 
@@ -416,21 +325,18 @@
 
                 setTimeout(() => {
                     document.getElementById('loader').classList.add('hidden');
-                    const content = document.getElementById('content');
-                    content.classList.remove('hidden');
-                    initSoftButtons();
+                    document.getElementById('content').classList.remove('hidden');
                 }, remaining);
             })
             .catch(err => {
-                console.error(err);
-                document.getElementById('dash-title').innerText = "KuroNeko";
-                document.getElementById('dash-desc').innerText = "Simple Dashboard Template";
+                console.warn('Config fetch failed, using fallback.', err);
+                document.getElementById('dash-title').innerText = 'KURO-NEKO';
+                document.getElementById('dash-desc').innerText = 'Brutalist Dashboard';
                 
                 setTimeout(() => {
                     document.getElementById('loader').classList.add('hidden');
                     document.getElementById('content').classList.remove('hidden');
-                    initSoftButtons();
-                }, 1000);
+                }, 800);
             });
     </script>
 </body>

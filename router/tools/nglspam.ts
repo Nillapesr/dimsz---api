@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import axios from 'axios';
+import axios from 'axios';  // ← PAKE IMPORT!
 
 interface NGLResponse {
   status: boolean;
@@ -7,7 +7,6 @@ interface NGLResponse {
   error?: string;
 }
 
-// === FUNGSI KIRIM PESAN ===
 async function sendNGLMessage(username: string, message: string): Promise<NGLResponse> {
   const cleanUsername = username.replace('https://ngl.link/', '').replace('@', '');
 
@@ -43,26 +42,23 @@ async function sendNGLMessage(username: string, message: string): Promise<NGLRes
   }
 }
 
-// === HANDLER ===
 export default async function handler(req: Request, res: Response) {
   const { username, message, count } = req.query;
 
-  // Validasi
   if (!username) {
     return res.status(400).json({
       status: false,
-      message: "Parameter 'username' diperlukan. Contoh: /api/tools/nglspam?username=nglusername&message=halo&count=5"
+      message: "Parameter 'username' diperlukan"
     });
   }
 
   if (!message) {
     return res.status(400).json({
       status: false,
-      message: "Parameter 'message' diperlukan."
+      message: "Parameter 'message' diperlukan"
     });
   }
 
-  // Jumlah spam (default 1, max 50 biar aman)
   let spamCount = parseInt(count as string) || 1;
   if (spamCount > 50) spamCount = 50;
   if (spamCount < 1) spamCount = 1;
@@ -70,7 +66,6 @@ export default async function handler(req: Request, res: Response) {
   const cleanUsername = username.replace('https://ngl.link/', '').replace('@', '');
   const startTime = Date.now();
 
-  // Kirim dengan delay 200ms biar gak kena rate limit
   const promises = [];
   for (let i = 0; i < spamCount; i++) {
     const delay = i * 200;
@@ -96,7 +91,7 @@ export default async function handler(req: Request, res: Response) {
     data: {
       username: cleanUsername,
       message: message,
-      total_attempts: spamCount,
+      total_attempts: spamCount
       success: successCount,
       failed: failedCount,
       duration: `${duration}s`,

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
 // === PAKE MEMORY (GAK PAKE FILE) ===
 const emails: Record<string, any> = {};
@@ -13,8 +13,17 @@ function generateEmail(prefix?: string): string {
 }
 
 // === HANDLER ===
-export default async function handler(req: Request, res: Response) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { action, email, prefix } = req.query;
+
+    // CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
 
     // === GENERATE ===
     if (action === 'generate') {

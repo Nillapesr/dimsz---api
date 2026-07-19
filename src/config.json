@@ -237,19 +237,6 @@
             "description": "URL TikTok"
           }
         ]
-      },
-      {
-        "name": "Cek Status Order",
-        "endpoint": "/api/smm/cekstatus",
-        "filename": "cekstatus",
-        "method": "GET",
-        "params": [
-          {
-            "name": "id",
-            "required": true,
-            "description": "ID Pesanan"
-          }
-        ]
       }
     ]
   }

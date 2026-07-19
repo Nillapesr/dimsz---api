@@ -3,413 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dimsz-API — Dashboard</title>
+    <title>Dimsz-API — Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #08080a;
-            color: #e4e4e7;
-            min-height: 100vh;
-        }
+        body { font-family: 'Inter', sans-serif; background: #faf6eb; color: #332e24; min-height: 100vh; }
         .mono { font-family: 'JetBrains Mono', monospace; }
-        
-        /* GLASSMORPHISM */
-        .glass {
-            background: rgba(17, 17, 20, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        .brutalist-border { border: 3px solid #433b2a; }
+        .brutalist-shadow { box-shadow: 4px 4px 0px 0px #433b2a; }
+        .brutalist-shadow-sm { box-shadow: 2px 2px 0px 0px #433b2a; }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); }
+        .mesh-bg {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background-color: #faf6eb;
+            background-image: 
+                radial-gradient(circle, rgba(67,59,42,0.08) 1.5px, transparent 1.5px),
+                linear-gradient(rgba(67,59,42,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(67,59,42,0.015) 1px, transparent 1px);
+            background-size: 24px 24px, 48px 48px, 48px 48px;
         }
-        .glass-light {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        
-        /* ANIMATED GRADIENT BORDER */
-        .gradient-border {
-            position: relative;
-            background: rgba(17, 17, 20, 0.8);
-            border-radius: 16px;
-            padding: 1px;
-        }
-        .gradient-border::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 18px;
-            padding: 2px;
-            background: conic-gradient(from var(--angle, 0deg), #6c3ce0, #a855f7, #6366f1, #6c3ce0);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: spin 4s linear infinite;
-        }
-        @property --angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-        }
-        @keyframes spin {
-            to { --angle: 360deg; }
-        }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 2px; }
-
-        /* BUTTON */
+        ::-webkit-scrollbar-thumb { background: #c2bcae; border-radius: 99px; }
         .btn-primary {
-            background: #6c3ce0;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 12px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
+            background: #558b2f; color: #fff; border: 3px solid #433b2a;
+            border-radius: 12px; padding: 12px 24px; font-weight: 900; font-size: 12px;
+            text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;
+            transition: all 0.15s; box-shadow: 3px 3px 0px 0px #433b2a;
+            display: inline-block; text-decoration: none;
         }
-        .btn-primary:hover {
-            background: #7a4de8;
-            transform: scale(1.02);
+        .btn-primary:hover { transform: translate(1px, 1px); box-shadow: 2px 2px 0px 0px #433b2a; }
+        .btn-secondary {
+            background: #fffbeb; color: #433b2a; border: 3px solid #433b2a;
+            border-radius: 12px; padding: 12px 24px; font-weight: 900; font-size: 12px;
+            text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer;
+            transition: all 0.15s; box-shadow: 3px 3px 0px 0px #433b2a;
+            display: inline-block; text-decoration: none;
         }
-        .btn-outline {
-            background: transparent;
-            color: #a1a1aa;
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 11px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-        .btn-outline:hover {
-            border-color: rgba(255,255,255,0.2);
-            color: #fff;
-        }
-
-        /* INPUT */
-        .dim-input {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: #e4e4e7;
-            outline: none;
-            width: 100%;
-            transition: border-color 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-        .dim-input:focus {
-            border-color: #6c3ce0;
-        }
-        .dim-input::placeholder {
-            color: #3f3f46;
-        }
-
-        /* CATEGORY PILL */
-        .cat-pill {
-            font-size: 10px;
-            font-weight: 600;
-            padding: 4px 14px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.06);
-            background: transparent;
-            color: #71717a;
-            cursor: pointer;
-            transition: all 0.15s;
-            white-space: nowrap;
-        }
-        .cat-pill:hover {
-            border-color: rgba(255,255,255,0.15);
-            color: #e4e4e7;
-        }
-        .cat-pill.active {
-            background: #6c3ce0;
-            color: #fff;
-            border-color: #6c3ce0;
-        }
-
-        /* ENDPOINT CARD */
-        .endpoint-card {
-            background: rgba(17, 17, 20, 0.6);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 16px 18px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        .endpoint-card:hover {
-            border-color: rgba(255,255,255,0.12);
-            transform: translateY(-2px);
-        }
-
-        /* RESPONSE BOX */
-        .response-box {
-            background: #0a0a0c;
-            border-radius: 8px;
-            padding: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            white-space: pre-wrap;
-            word-break: break-all;
-            max-height: 200px;
-            overflow: auto;
-            border: 1px solid rgba(255,255,255,0.04);
-            margin-top: 8px;
-            display: none;
-        }
-        .response-box.show {
-            display: block;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse-dot 2s infinite;
-        }
+        .btn-secondary:hover { transform: translate(1px, 1px); box-shadow: 2px 2px 0px 0px #433b2a; }
     </style>
 </head>
 <body>
 
+    <!-- BG -->
+    <div class="mesh-bg"></div>
+
     <!-- NAVBAR -->
-    <nav class="glass sticky top-0 z-50 border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-gradient-to-br from-[#6c3ce0] to-[#a855f7] rounded-lg flex items-center justify-center text-white font-bold text-sm">D</div>
-                <span class="font-bold text-lg text-white">Dimsz<span class="text-[#6c3ce0]">-API</span></span>
-                <span class="text-[10px] text-white/30 mono hidden sm:inline">v1.0</span>
-            </div>
-            <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2 text-xs text-white/40 mono">
-                    <span class="status-dot bg-green-400"></span>
-                    <span class="hidden sm:inline">Online</span>
+    <nav class="fixed top-0 left-0 right-0 h-16 border-b-4 border-[#433b2a] bg-[#faf6eb]/90 backdrop-blur-md z-50">
+        <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2.5 cursor-pointer select-none no-underline">
+                <div class="w-9 h-9 rounded-xl border-2 border-[#433b2a] bg-[#ecf7ed] flex items-center justify-center text-[#2e7d32] shadow-[2px_2px_0px_0px_rgba(67,59,42,0.15)]">
+                    <i class="fa-solid fa-terminal text-sm"></i>
                 </div>
-                <a href="/docs" class="text-xs text-white/40 hover:text-white/80 transition">Docs</a>
-                <a href="/config" class="text-xs text-white/40 hover:text-white/80 transition">Config</a>
+                <div class="flex flex-col leading-none">
+                    <span class="font-black text-sm tracking-tight text-[#433b2a]">Dimsz-API</span>
+                    <span class="text-[9px] text-[#807d72] font-semibold">API Gateway</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-3">
+                <a href="/docs" class="px-4 py-1.5 rounded-xl brutalist-border bg-[#fffbeb] hover:bg-white text-[#433b2a] text-xs font-black tracking-wide brutalist-shadow-sm transition-all no-underline">
+                    📖 Docs
+                </a>
+                <a href="/stats" class="w-8 h-8 rounded-xl brutalist-border bg-white text-[#433b2a] hover:bg-[#faf8f2] flex items-center justify-center transition-all brutalist-shadow-sm no-underline">
+                    <i class="fa-solid fa-chart-simple text-sm"></i>
+                </a>
             </div>
         </div>
     </nav>
 
     <!-- HERO -->
-    <header class="text-center py-12 px-4">
-        <div class="max-w-2xl mx-auto">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/5 text-xs text-white/40 mono mb-4">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                System Ready
+    <section class="relative pt-32 pb-16 text-center px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border-2 border-[#433b2a] bg-[#fffbeb] text-[10px] font-black text-[#433b2a] mb-6">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                FREE REST API PLATFORM
             </div>
-            <h1 class="text-4xl sm:text-5xl font-bold text-white mb-3">
-                API <span class="text-[#6c3ce0]">Gateway</span>
+            <h1 class="text-4xl sm:text-6xl font-black text-[#433b2a] leading-[1.1] mb-6 uppercase">
+                THE API PORTAL <br>
+                <span class="bg-[#fffbeb] brutalist-border px-4 py-1 text-[#b45309] rounded-xl inline-block mt-2 shadow-[3px_3px_0px_0px_rgba(67,59,42,0.15)] text-3xl sm:text-5xl">
+                    Dimsz-API Gateway
+                </span>
             </h1>
-            <p class="text-white/40 text-sm max-w-md mx-auto">
-                Explore and test all available endpoints directly from this dashboard.
+            <p class="text-sm text-[#736e63] max-w-xl mx-auto leading-relaxed font-semibold mb-8">
+                AI models, high-speed media downloaders, image converters, canvas cards, and dynamic widgets — all in one hyper-fast portal. Zero setup, absolutely free.
             </p>
-        </div>
-    </header>
-
-    <!-- MAIN -->
-    <main class="max-w-7xl mx-auto px-4 pb-20">
-
-        <!-- STATS -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-            <div class="glass rounded-xl p-4 text-center border border-white/5">
-                <div class="text-2xl font-bold text-white" id="stat-total">0</div>
-                <div class="text-[10px] text-white/30 mono">Endpoints</div>
-            </div>
-            <div class="glass rounded-xl p-4 text-center border border-white/5">
-                <div class="text-2xl font-bold text-[#6c3ce0]" id="stat-categories">0</div>
-                <div class="text-[10px] text-white/30 mono">Categories</div>
-            </div>
-            <div class="glass rounded-xl p-4 text-center border border-white/5">
-                <div class="text-2xl font-bold text-white" id="stat-online">✅</div>
-                <div class="text-[10px] text-white/30 mono">Status</div>
-            </div>
-            <div class="glass rounded-xl p-4 text-center border border-white/5">
-                <div class="text-2xl font-bold text-white" id="stat-uptime">0s</div>
-                <div class="text-[10px] text-white/30 mono">Uptime</div>
+            <div class="flex flex-wrap gap-4 justify-center">
+                <a href="/docs" class="btn-primary">
+                    <i class="fa-solid fa-arrow-right mr-2"></i> Explore Endpoints
+                </a>
+                <a href="/stats" class="btn-secondary">
+                    <i class="fa-solid fa-chart-line mr-2"></i> System Stats
+                </a>
             </div>
         </div>
+    </section>
 
-        <!-- SEARCH & FILTER -->
-        <div class="flex flex-col sm:flex-row gap-3 mb-6">
-            <div class="relative flex-1">
-                <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-xs"></i>
-                <input type="text" id="search-input" placeholder="Search endpoints..." class="dim-input pl-9">
+    <!-- STATS -->
+    <section class="py-12 border-y-4 border-[#433b2a] bg-white/50 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="text-center p-4 rounded-xl bg-white brutalist-border brutalist-shadow-sm">
+                <div class="text-3xl font-black text-[#16a34a]">50K+</div>
+                <div class="text-[10px] font-black text-[#433b2a] uppercase mt-1">Total Requests</div>
             </div>
-            <div class="flex flex-wrap gap-2" id="category-filters">
-                <button class="cat-pill active" data-cat="All">All</button>
+            <div class="text-center p-4 rounded-xl bg-white brutalist-border brutalist-shadow-sm">
+                <div class="text-3xl font-black text-[#0284c7]">99.9%</div>
+                <div class="text-[10px] font-black text-[#433b2a] uppercase mt-1">Uptime</div>
+            </div>
+            <div class="text-center p-4 rounded-xl bg-white brutalist-border brutalist-shadow-sm">
+                <div class="text-3xl font-black text-[#dc2626]">&lt;200ms</div>
+                <div class="text-[10px] font-black text-[#433b2a] uppercase mt-1">Avg Latency</div>
+            </div>
+            <div class="text-center p-4 rounded-xl bg-white brutalist-border brutalist-shadow-sm">
+                <div class="text-3xl font-black text-[#b45309]">52+</div>
+                <div class="text-[10px] font-black text-[#433b2a] uppercase mt-1">Live Endpoints</div>
             </div>
         </div>
+    </section>
 
-        <!-- ENDPOINT GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="endpoint-grid"></div>
-
-        <!-- NO RESULTS -->
-        <div id="no-results" class="hidden text-center py-12">
-            <i class="fa-solid fa-magnifying-glass text-2xl text-white/10 mb-3"></i>
-            <p class="text-white/20 text-sm">No endpoints found</p>
+    <!-- FEATURES -->
+    <section class="py-20 px-4 max-w-6xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="mono text-[10px] tracking-[0.2em] text-[#807d72] font-bold uppercase">Dimsz Advantages</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-[#433b2a] mt-2 uppercase">Built for Speed // Styled for Power</h2>
         </div>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-6 rounded-2xl bg-white brutalist-border brutalist-shadow">
+                <div class="w-12 h-12 rounded-xl border-2 border-[#433b2a] bg-[#eef2ff] flex items-center justify-center text-[#4f46e5] mb-4">
+                    <i class="fa-solid fa-code text-xl"></i>
+                </div>
+                <h3 class="font-black text-[#433b2a] mb-2">Clean REST API Layers</h3>
+                <p class="text-sm text-[#736e63] font-semibold">Consistent JSON responses, clear query parameters, and predictable outputs. Build in minutes.</p>
+            </div>
+            <div class="p-6 rounded-2xl bg-white brutalist-border brutalist-shadow">
+                <div class="w-12 h-12 rounded-xl border-2 border-[#433b2a] bg-[#fffbeb] flex items-center justify-center text-[#b45309] mb-4">
+                    <i class="fa-solid fa-bolt text-xl"></i>
+                </div>
+                <h3 class="font-black text-[#433b2a] mb-2">Hyper-Speed Channels</h3>
+                <p class="text-sm text-[#736e63] font-semibold">Under 200ms average latency. Engineered to withstand aggressive requests.</p>
+            </div>
+            <div class="p-6 rounded-2xl bg-white brutalist-border brutalist-shadow">
+                <div class="w-12 h-12 rounded-xl border-2 border-[#433b2a] bg-[#fef0f0] flex items-center justify-center text-[#dc2626] mb-4">
+                    <i class="fa-solid fa-shield-halved text-xl"></i>
+                </div>
+                <h3 class="font-black text-[#433b2a] mb-2">Military Shield Reliable</h3>
+                <p class="text-sm text-[#736e63] font-semibold">Standard SSL & authentication. Self-healing prevents downtime.</p>
+            </div>
+            <div class="p-6 rounded-2xl bg-white brutalist-border brutalist-shadow">
+                <div class="w-12 h-12 rounded-xl border-2 border-[#433b2a] bg-[#ecf7ed] flex items-center justify-center text-[#16a34a] mb-4">
+                    <i class="fa-solid fa-star text-xl"></i>
+                </div>
+                <h3 class="font-black text-[#433b2a] mb-2">100% Indie & Free Forever</h3>
+                <p class="text-sm text-[#736e63] font-semibold">No credit cards, no invoices, no trial gates. Deploy instantly.</p>
+            </div>
+        </div>
+    </section>
 
-    </main>
+    <!-- PRICING -->
+    <section class="py-20 px-4 border-y-4 border-[#433b2a] bg-[#f5efe6]">
+        <div class="max-w-md mx-auto">
+            <div class="text-center mb-8">
+                <span class="mono text-[10px] tracking-[0.2em] text-[#807d72] font-bold uppercase">Pricing // Single Tier</span>
+                <h2 class="text-3xl font-black text-[#433b2a] mt-2 uppercase">No Surprise Invoices</h2>
+            </div>
+            <div class="rounded-2xl bg-white brutalist-border p-8 brutalist-shadow relative">
+                <div class="absolute top-0 right-0 bg-[#558b2f] text-white text-[9px] font-black px-4 py-1 border-b-2 border-l-2 border-[#433b2a] rounded-bl-xl">
+                    FREE ACCESS
+                </div>
+                <h3 class="text-xl font-black text-[#433b2a] mb-2">Free Forever</h3>
+                <p class="text-sm text-[#736e63] font-semibold mb-6">For developers, students, and teams of any size.</p>
+                <div class="text-5xl font-black text-[#433b2a] mb-6">$0 <span class="text-sm text-[#b45309] font-mono">/ month</span></div>
+                <ul class="space-y-3 mb-8 text-left">
+                    <li class="flex items-center gap-3 text-sm text-[#5c5649] font-semibold">
+                        <span class="w-5 h-5 rounded-lg bg-[#ecf7ed] border-2 border-[#433b2a] flex items-center justify-center text-[#16a34a]">✓</span>
+                        Unlimited API requests
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-[#5c5649] font-semibold">
+                        <span class="w-5 h-5 rounded-lg bg-[#ecf7ed] border-2 border-[#433b2a] flex items-center justify-center text-[#16a34a]">✓</span>
+                        Full catalog access
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-[#5c5649] font-semibold">
+                        <span class="w-5 h-5 rounded-lg bg-[#ecf7ed] border-2 border-[#433b2a] flex items-center justify-center text-[#16a34a]">✓</span>
+                        No API key required
+                    </li>
+                    <li class="flex items-center gap-3 text-sm text-[#5c5649] font-semibold">
+                        <span class="w-5 h-5 rounded-lg bg-[#ecf7ed] border-2 border-[#433b2a] flex items-center justify-center text-[#16a34a]">✓</span>
+                        Real-time playground
+                    </li>
+                </ul>
+                <a href="/docs" class="block w-full py-4 text-center rounded-xl brutalist-border bg-[#558b2f] hover:bg-[#4c7c25] text-white font-black text-sm uppercase brutalist-shadow transition-all">
+                    Start Building Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 px-4 max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+            <span class="mono text-[10px] tracking-[0.2em] text-[#807d72] font-bold uppercase">Knowledge Base // FAQ</span>
+            <h2 class="text-3xl font-black text-[#433b2a] mt-2 uppercase">Common Questions</h2>
+        </div>
+        <div class="space-y-4 text-left">
+            <div class="rounded-2xl bg-white brutalist-border p-6 brutalist-shadow-sm">
+                <button onclick="toggleFaq(0)" class="w-full flex items-center justify-between text-left font-bold text-[#433b2a]">
+                    <span>What is Dimsz-API?</span>
+                    <i id="faq-icon-0" class="fa-solid fa-chevron-down transition-transform"></i>
+                </button>
+                <div id="faq-ans-0" class="hidden mt-3 text-sm text-[#5c5649] font-semibold border-t border-[#433b2a]/10 pt-3">
+                    Dimsz-API is a free, consolidated API platform offering instant access to AI services, media downloaders, image converters, canvas generators, and localized services.
+                </div>
+            </div>
+            <div class="rounded-2xl bg-white brutalist-border p-6 brutalist-shadow-sm">
+                <button onclick="toggleFaq(1)" class="w-full flex items-center justify-between text-left font-bold text-[#433b2a]">
+                    <span>Is it really free?</span>
+                    <i id="faq-icon-1" class="fa-solid fa-chevron-down transition-transform"></i>
+                </button>
+                <div id="faq-ans-1" class="hidden mt-3 text-sm text-[#5c5649] font-semibold border-t border-[#433b2a]/10 pt-3">
+                    Yes, 100% free. Most endpoints don't require API keys. For advanced endpoints, free keys are available via WhatsApp channel.
+                </div>
+            </div>
+            <div class="rounded-2xl bg-white brutalist-border p-6 brutalist-shadow-sm">
+                <button onclick="toggleFaq(2)" class="w-full flex items-center justify-between text-left font-bold text-[#433b2a]">
+                    <span>Which languages are supported?</span>
+                    <i id="faq-icon-2" class="fa-solid fa-chevron-down transition-transform"></i>
+                </button>
+                <div id="faq-ans-2" class="hidden mt-3 text-sm text-[#5c5649] font-semibold border-t border-[#433b2a]/10 pt-3">
+                    Any language with HTTP support. Our docs include snippets for Node.js (fetch), PHP (curl), Python (requests), and cURL.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t-4 border-[#433b2a] bg-[#f5efe6] py-12 px-4 text-center">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-center gap-2 font-black text-[#433b2a] mb-4">
+                <i class="fa-solid fa-terminal text-[#2e7d32]"></i>
+                <span>Dimsz-API</span>
+            </div>
+            <p class="text-sm text-[#736e63] font-semibold mb-4">Next-Gen free REST API layer. No credit cards, no complicated pipelines.</p>
+            <div class="flex justify-center gap-6 text-sm text-[#5c5649] font-semibold">
+                <a href="/docs" class="hover:text-black transition">Docs</a>
+                <a href="/stats" class="hover:text-black transition">Stats</a>
+                <a href="/config" class="hover:text-black transition">Config</a>
+            </div>
+            <div class="mt-6 text-xs text-[#807d72] font-mono">
+                &copy; 2026 Dimsz-API &bull; Active 200 OK
+            </div>
+        </div>
+    </footer>
 
     <script>
-        let allEndpoints = [];
-        let currentCategory = 'All';
-
-        // ===== FETCH ENDPOINTS =====
-        async function loadEndpoints() {
-            try {
-                const res = await fetch('/config');
-                const config = await res.json();
-                const tags = config.tags || {};
-                
-                allEndpoints = [];
-                for (const [category, endpoints] of Object.entries(tags)) {
-                    endpoints.forEach(ep => {
-                        allEndpoints.push({ ...ep, category });
-                    });
-                }
-
-                document.getElementById('stat-total').textContent = allEndpoints.length;
-                document.getElementById('stat-categories').textContent = Object.keys(tags).length;
-
-                buildFilters();
-                renderEndpoints();
-
-                // Uptime counter
-                let seconds = 0;
-                setInterval(() => {
-                    seconds++;
-                    document.getElementById('stat-uptime').textContent = formatTime(seconds);
-                }, 1000);
-
-            } catch(e) {
-                console.error('Gagal load config:', e);
-            }
+        // FAQ toggle
+        function toggleFaq(idx) {
+            const ans = document.getElementById(`faq-ans-${idx}`);
+            const icon = document.getElementById(`faq-icon-${idx}`);
+            ans.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
         }
-
-        function formatTime(sec) {
-            const h = String(Math.floor(sec / 3600)).padStart(2, '0');
-            const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
-            const s = String(sec % 60).padStart(2, '0');
-            return `${h}:${m}:${s}`;
-        }
-
-        // ===== BUILD CATEGORY FILTERS =====
-        function buildFilters() {
-            const cats = ['All', ...new Set(allEndpoints.map(e => e.category))];
-            const container = document.getElementById('category-filters');
-            container.innerHTML = '';
-            cats.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = `cat-pill ${cat === 'All' ? 'active' : ''}`;
-                btn.dataset.cat = cat;
-                btn.textContent = cat;
-                btn.onclick = () => filterCategory(cat);
-                container.appendChild(btn);
-            });
-        }
-
-        function filterCategory(cat) {
-            currentCategory = cat;
-            document.querySelectorAll('.cat-pill').forEach(p => {
-                p.classList.toggle('active', p.dataset.cat === cat);
-            });
-            renderEndpoints();
-        }
-
-        // ===== RENDER ENDPOINTS =====
-        function renderEndpoints() {
-            const grid = document.getElementById('endpoint-grid');
-            const search = document.getElementById('search-input').value.toLowerCase();
-            const filtered = allEndpoints.filter(e => {
-                const matchCat = currentCategory === 'All' || e.category === currentCategory;
-                const matchSearch = e.name.toLowerCase().includes(search) || e.endpoint.toLowerCase().includes(search);
-                return matchCat && matchSearch;
-            });
-
-            const noResults = document.getElementById('no-results');
-            if (filtered.length === 0) {
-                noResults.classList.remove('hidden');
-            } else {
-                noResults.classList.add('hidden');
-            }
-
-            grid.innerHTML = '';
-            filtered.forEach((ep, i) => {
-                const card = document.createElement('div');
-                card.className = 'endpoint-card animate-fadeIn';
-                card.style.animationDelay = `${i * 30}ms`;
-                card.innerHTML = `
-                    <div class="flex items-start justify-between gap-3">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <span class="text-[10px] font-bold text-white/30 mono bg-white/5 px-2 py-0.5 rounded">${ep.method || 'GET'}</span>
-                                <span class="text-sm font-mono text-white/80 truncate">${ep.endpoint}</span>
-                                ${ep.params?.length ? `<span class="text-[10px] text-white/20 mono">${ep.params.length} params</span>` : ''}
-                            </div>
-                            <div class="text-xs text-white/30 mt-0.5">${ep.name}</div>
-                            <div class="text-[10px] text-white/15 mono mt-1">${ep.category}</div>
-                        </div>
-                        <button onclick="executeEndpoint('${ep.endpoint}', ${i})" class="btn-primary text-xs px-3 py-1.5 shrink-0">Execute</button>
-                    </div>
-                    <div id="response-${i}" class="response-box">Loading...</div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // ===== EXECUTE ENDPOINT =====
-        async function executeEndpoint(endpoint, index) {
-            const box = document.getElementById(`response-${index}`);
-            box.classList.add('show');
-            box.textContent = '⏳ Sending request...';
-
-            try {
-                const res = await fetch(endpoint);
-                const data = await res.json();
-                box.textContent = JSON.stringify(data, null, 2);
-            } catch(e) {
-                box.textContent = `❌ Error: ${e.message}`;
-            }
-        }
-
-        // ===== SEARCH =====
-        document.getElementById('search-input').addEventListener('input', renderEndpoints);
-
-        // ===== INIT =====
-        document.addEventListener('DOMContentLoaded', loadEndpoints);
     </script>
 
-    <style>
-        .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out both;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
 </body>
 </html>

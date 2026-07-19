@@ -1,9 +1,8 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
-// === PAKE MEMORY (GAK PAKE FILE) ===
+// === PAKE MEMORY ===
 const emails: Record<string, any> = {};
 
-// === GENERATE EMAIL ===
 function generateEmail(prefix?: string): string {
     const domains = ['tempmail.com', 'temp-mail.org', 'guerrillamail.com', 'mailinator.com'];
     const random = Math.random().toString(36).substring(2, 10);
@@ -12,18 +11,11 @@ function generateEmail(prefix?: string): string {
     return `${name}@${domain}`;
 }
 
-// === HANDLER ===
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { action, email, prefix } = req.query;
 
     // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
 
     // === GENERATE ===
     if (action === 'generate') {

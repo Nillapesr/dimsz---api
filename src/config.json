@@ -18,16 +18,8 @@
         "filename": "kuroneko",
         "method": "GET",
         "params": [
-          {
-            "name": "q",
-            "required": true,
-            "description": "Question"
-          },
-          {
-            "name": "session",
-            "required": false,
-            "description": "Session ID"
-          }
+          { "name": "q", "required": true, "description": "Question" },
+          { "name": "session", "required": false, "description": "Session ID" }
         ]
       },
       {
@@ -36,16 +28,8 @@
         "filename": "chatgpt",
         "method": "GET",
         "params": [
-          {
-            "name": "q",
-            "required": true,
-            "description": "Pertanyaan ke ChatGPT"
-          },
-          {
-            "name": "session",
-            "required": false,
-            "description": "Session ID (opsional)"
-          }
+          { "name": "q", "required": true, "description": "Pertanyaan ke ChatGPT" },
+          { "name": "session", "required": false, "description": "Session ID (opsional)" }
         ]
       },
       {
@@ -54,16 +38,8 @@
         "filename": "unlimitedai",
         "method": "GET",
         "params": [
-          {
-            "name": "q",
-            "required": true,
-            "description": "Pertanyaan"
-          },
-          {
-            "name": "session",
-            "required": false,
-            "description": "Session ID (opsional)"
-          }
+          { "name": "q", "required": true, "description": "Pertanyaan" },
+          { "name": "session", "required": false, "description": "Session ID (opsional)" }
         ]
       }
     ],
@@ -73,26 +49,14 @@
         "endpoint": "/api/maker/brat",
         "filename": "brat",
         "method": "GET",
-        "params": [
-          {
-            "name": "text",
-            "required": true,
-            "description": "Text"
-          }
-        ]
+        "params": [{ "name": "text", "required": true, "description": "Text" }]
       },
       {
         "name": "AFML Generator",
         "endpoint": "/api/maker/afml",
         "filename": "afml",
         "method": "GET",
-        "params": [
-          {
-            "name": "ppurl",
-            "required": true,
-            "description": "URL foto profil"
-          }
-        ]
+        "params": [{ "name": "ppurl", "required": true, "description": "URL foto profil" }]
       }
     ],
     "random": [
@@ -111,38 +75,9 @@
         "filename": "ssweb",
         "method": "GET",
         "params": [
-          {
-            "name": "url",
-            "required": true,
-            "description": "Website URL"
-          },
-          {
-            "name": "type",
-            "required": false,
-            "description": "mobile | desktop"
-          }
+          { "name": "url", "required": true, "description": "Website URL" },
+          { "name": "type", "required": false, "description": "mobile | desktop" }
         ]
-      },
-      {
-    "name": "NGL Spammer",
-    "endpoint": "/api/tools/nglspam",
-    "filename": "nglspam",
-    "method": "GET",
-    "params": [
-      {
-        "name": "username",
-        "required": true,
-        "description": "Username NGL (contoh: @username)"
-      },
-      {
-        "name": "message",
-        "required": true,
-        "description": "Pesan yang mau dikirim"
-      },
-      {
-        "name": "count",
-        "required": false,
-        "description": "Jumlah spam (max 50, default 1)"
       },
       {
         "name": "Short URL",
@@ -150,16 +85,19 @@
         "filename": "shorturl",
         "method": "GET",
         "params": [
-          {
-            "name": "url",
-            "required": true,
-            "description": "Original URL"
-          },
-          {
-            "name": "alias",
-            "required": false,
-            "description": "Custom Alias"
-          }
+          { "name": "url", "required": true, "description": "Original URL" },
+          { "name": "alias", "required": false, "description": "Custom Alias" }
+        ]
+      },
+      {
+        "name": "NGL Spammer",
+        "endpoint": "/api/tools/nglspam",
+        "filename": "nglspam",
+        "method": "GET",
+        "params": [
+          { "name": "username", "required": true, "description": "Username NGL (contoh: @username)" },
+          { "name": "message", "required": true, "description": "Pesan yang mau dikirim" },
+          { "name": "count", "required": false, "description": "Jumlah spam (max 50, default 1)" }
         ]
       }
     ],
@@ -169,95 +107,53 @@
         "endpoint": "/api/download/facebook",
         "filename": "facebook",
         "method": "GET",
-        "params": [
-          {
-            "name": "url",
-            "required": true,
-            "description": "Facebook URL"
-          }
-        ]
+        "params": [{ "name": "url", "required": true, "description": "Facebook URL" }]
       },
       {
         "name": "Instagram Downloader",
         "endpoint": "/api/download/instagram",
         "filename": "instagram",
         "method": "GET",
-        "params": [
-          {
-            "name": "url",
-            "required": true,
-            "description": "Instagram URL"
-          }
-        ]
+        "params": [{ "name": "url", "required": true, "description": "Instagram URL" }]
       },
       {
         "name": "TikTok Downloader",
         "endpoint": "/api/download/tiktok",
         "filename": "tiktok",
         "method": "GET",
-        "params": [
-          {
-            "name": "url",
-            "required": true,
-            "description": "TikTok URL"
-          }
-        ]
+        "params": [{ "name": "url", "required": true, "description": "TikTok URL" }]
       }
     ],
     "stalker": [
-  {
-    "name": "YouTube Stalker",
-    "endpoint": "/api/stalker/ytstalker",
-    "filename": "ytstalker",
-    "method": "GET",
-    "params": [
       {
-        "name": "username",
-        "required": true,
-        "description": "Username YouTube"
+        "name": "YouTube Stalker",
+        "endpoint": "/api/stalker/ytstalker",
+        "filename": "ytstalker",
+        "method": "GET",
+        "params": [{ "name": "username", "required": true, "description": "Username YouTube" }]
       }
-    ]
-  }
-],
+    ],
     "search": [
       {
         "name": "Youtube Search",
         "endpoint": "/api/search/yts",
         "filename": "yts",
         "method": "GET",
-        "params": [
-          {
-            "name": "q",
-            "required": true,
-            "description": "Query"
-          }
-        ]
+        "params": [{ "name": "q", "required": true, "description": "Query" }]
       },
       {
         "name": "TikTok Search",
         "endpoint": "/api/search/tiktok",
         "filename": "tiktok",
         "method": "GET",
-        "params": [
-          {
-            "name": "q",
-            "required": true,
-            "description": "Query"
-          }
-        ]
+        "params": [{ "name": "q", "required": true, "description": "Query" }]
       },
       {
         "name": "Pinterest Search",
         "endpoint": "/api/search/pinterest",
         "filename": "pinterest",
         "method": "GET",
-        "params": [
-          {
-            "name": "q",
-            "required": true,
-            "description": "Query"
-          }
-        ]
+        "params": [{ "name": "q", "required": true, "description": "Query" }]
       }
     ],
     "smm": [
@@ -266,13 +162,7 @@
         "endpoint": "/api/smm/tiktokview",
         "filename": "tiktokview",
         "method": "GET",
-        "params": [
-          {
-            "name": "url",
-            "required": true,
-            "description": "URL TikTok"
-          }
-        ]
+        "params": [{ "name": "url", "required": true, "description": "URL TikTok" }]
       }
     ]
   }

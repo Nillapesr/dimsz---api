@@ -7,44 +7,46 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                        sans: ['"Inter"', 'sans-serif'],
+                        mono: ['"Space Mono"', 'monospace'],
                     },
                     colors: {
-                        'fmn-blue': '#89CFF0',
-                        'fmn-dark': '#6495ED',
-                        'fmn-purple': '#B39DDB',
-                        'fmn-bg': '#F0F8FF',
-                        'term-bg': '#0f172a',
-                        'term-header': '#1e293b',
-                        'term-text': '#e2e8f0',
+                        'brutal-bg': '#e8e0d8',
+                        'brutal-dark': '#1a1a1a',
+                        'brutal-accent': '#c1121f',
+                        'brutal-yellow': '#f4d03f',
+                        'brutal-blue': '#2a6f97',
+                        'brutal-green': '#2b9348',
+                        'brutal-orange': '#e85d04',
                     },
                     boxShadow: {
-                        'soft': '0 4px 20px -2px rgba(137, 207, 240, 0.15)',
-                        'card': '0 2px 10px -2px rgba(0, 0, 0, 0.05)',
+                        'brutal': '8px 8px 0 0 #1a1a1a',
+                        'brutal-sm': '4px 4px 0 0 #1a1a1a',
+                        'brutal-lg': '12px 12px 0 0 #1a1a1a',
                     },
                     animation: {
                         'blink': 'blink 1s step-end infinite',
                         'slide-down': 'slideDown 0.3s ease-out forwards',
-                        'marquee': 'marquee 15s linear infinite',
+                        'marquee': 'marquee 20s linear infinite',
                         'slide-in-right': 'slideInRight 0.4s ease-out forwards',
                         'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
                         'pulse-slow': 'pulseSlow 6s ease-in-out infinite',
+                        'typewriter': 'typewriter 2s steps(20) forwards',
                     },
                     keyframes: {
                         blink: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0' } },
                         slideDown: { '0%': { opacity: '0', transform: 'translateY(-10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        marquee: { '0%': { transform: 'translateX(100%)' }, '100%': { transform: 'translateX(-150%)' } },
+                        marquee: { '0%': { transform: 'translateX(100%)' }, '100%': { transform: 'translateX(-200%)' } },
                         slideInRight: { '0%': { opacity: '0', transform: 'translateX(15px)' }, '100%': { opacity: '1', transform: 'translateX(0)' } },
                         fadeInUp: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        pulseSlow: { '0%, 100%': { opacity: '0.4', transform: 'scale(1)' }, '50%': { opacity: '0.8', transform: 'scale(1.15)' } },
+                        pulseSlow: { '0%, 100%': { opacity: '0.3', transform: 'scale(1)' }, '50%': { opacity: '0.6', transform: 'scale(1.2)' } },
+                        typewriter: { 'from': { width: '0' }, 'to': { width: '100%' } },
                     },
                 }
             }
@@ -56,157 +58,348 @@
             overflow-x: hidden;
             width: 100%;
             position: relative;
+            background: #e8e0d8;
+            font-family: 'Space Mono', monospace;
         }
 
         #fixed-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -50;
-            background-color: #F0F8FF;
+            background-color: #e8e0d8;
             background-image: url('https://c.termai.cc/i181/aGwK.png'), url('https://c.termai.cc/i155/wbV.jpg');
             background-position: bottom right, center center;
             background-size: 85% auto, cover;
             background-repeat: no-repeat;
-            opacity: 0.8;
+            opacity: 0.6;
+            filter: contrast(1.2) saturate(0.7);
         }
         @media (max-width: 768px) {
             #fixed-bg { background-size: 110% auto, cover; }
         }
 
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        /* JSON Syntax Highlighting */
-        .json-key { color: #f87171; font-weight: 600; }
-        .json-string { color: #a3e635; }
-        .json-number { color: #60a5fa; font-weight: 600; }
-        .json-boolean { color: #c084fc; font-style: italic; }
-        .json-null { color: #94a3b8; }
-        .json-key, .json-string, .json-number, .json-boolean, .json-null { display: inline-block; transition: all 0.3s ease; }
-        
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        
-        .response-area {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: top center;
-        }
-        
-        .response-area.showing { animation: slideInRight 0.4s ease-out, fadeInUp 0.5s ease-out; }
-        .response-area.success { border-color: #10b981 !important; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1); }
-        .response-area.error { border-color: #ef4444 !important; box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1); }
-        
-        .status-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
-        .status-success { background-color: #10b981; box-shadow: 0 0 8px #10b981; animation: blink 1.5s infinite; }
-        .status-error { background-color: #ef4444; box-shadow: 0 0 8px #ef4444; animation: blink 1.5s infinite; }
-        .status-waiting { background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; animation: blink 1.5s infinite; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #d4cbc2; }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border: 2px solid #d4cbc2; }
+        ::-webkit-scrollbar-thumb:hover { background: #c1121f; }
 
-        .soft-btn {
-            --button-raise-level: 6px;
-            --press-inset: 3px;
-            --button-hover-pressure: 1.5;
-            --transform-speed: 160ms;
-            --radius: 12px;
-
-            position: relative;
-            border: none;
-            background: transparent;
-            padding: 0;
-            cursor: pointer;
-            user-select: none;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-            display: block;
+        /* Brutalist Core Styles */
+        .brutal-border {
+            border: 3px solid #1a1a1a;
         }
 
-        .soft-btn__wrapper {
-            position: relative;
-            display: block;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
+        .brutal-shadow {
+            box-shadow: 8px 8px 0 0 #1a1a1a;
         }
 
-        .soft-btn__wrapper::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: calc(100% - var(--button-raise-level));
-            background: var(--side-color);
-            border-radius: var(--radius);
-            z-index: 1;
+        .brutal-shadow-sm {
+            box-shadow: 4px 4px 0 0 #1a1a1a;
         }
 
-        .soft-btn__content {
-            position: relative;
-            width: 100%;
-            height: calc(100% - var(--button-raise-level));
-            background: var(--surface-color);
-            color: var(--text-color);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translateY(0);
-            transition: transform var(--transform-speed) ease-out;
-            will-change: transform;
-            backface-visibility: hidden;
-            transform-origin: center;
-            z-index: 2;
-            border: var(--border-width) solid var(--border-color);
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+        .brutal-card {
+            background: #f5f0eb;
+            border: 4px solid #1a1a1a;
+            box-shadow: 10px 10px 0 0 #1a1a1a;
         }
 
-        .soft-btn__inner {
+        .brutal-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            z-index: 4;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: #f5f0eb;
+            color: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            box-shadow: 5px 5px 0 0 #1a1a1a;
+            cursor: pointer;
+            transition: all 0.06s linear;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .brutal-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 1px 1px 0 0 #1a1a1a;
+        }
+
+        .brutal-btn-primary {
+            background: #c1121f;
+            color: #f5f0eb;
+            box-shadow: 5px 5px 0 0 #1a1a1a;
+            border-color: #1a1a1a;
+        }
+
+        .brutal-btn-primary:active {
+            background: #a00f1a;
+        }
+
+        .brutal-btn-icon {
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: #f5f0eb;
+            border: 3px solid #1a1a1a;
+            box-shadow: 4px 4px 0 0 #1a1a1a;
+            transition: all 0.06s linear;
+            flex: 1;
+            color: #1a1a1a;
+        }
+
+        .brutal-btn-icon:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0 0 #1a1a1a;
+        }
+
+        .brutal-btn-icon:hover {
+            background: #e8e0d8;
+        }
+
+        .brutal-dot {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #1a1a1a;
+            background: #f5f0eb;
+        }
+        .brutal-dot-red { background: #c1121f; }
+        .brutal-dot-yellow { background: #f4d03f; }
+        .brutal-dot-green { background: #2b9348; }
+
+        .brutal-badge {
+            background: #f4d03f;
+            color: #1a1a1a;
+            padding: 0.2rem 0.8rem;
+            border: 2px solid #1a1a1a;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 3px 3px 0 0 #1a1a1a;
+        }
+
+        .brutal-divider {
+            height: 4px;
+            background: #1a1a1a;
+            width: 60px;
+            margin: 0.5rem auto;
+        }
+
+        /* Terminal Brutal */
+        .brutal-terminal {
+            background: #1a1a1a;
+            border: 4px solid #1a1a1a;
+            box-shadow: 8px 8px 0 0 #1a1a1a;
+        }
+
+        .brutal-terminal-header {
+            background: #2a2a2a;
+            border-bottom: 3px solid #1a1a1a;
+            padding: 0.6rem 1rem;
+        }
+
+        .brutal-terminal-body {
+            background: #0f0f0f;
+            color: #e2e8f0;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+        }
+
+        .brutal-input {
+            background: #f5f0eb;
+            border: 3px solid #1a1a1a;
+            box-shadow: 4px 4px 0 0 #1a1a1a;
+            padding: 0.6rem 1rem 0.6rem 2.8rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: #1a1a1a;
             width: 100%;
-            height: 100%;
-            pointer-events: none;
+            outline: none;
+            transition: all 0.06s linear;
         }
 
-        .soft-btn--middle .soft-btn__content { transform: translateY(calc(1px * var(--button-hover-pressure))); }
-        .soft-btn--left .soft-btn__content { transform: skewY(calc(-1deg * var(--button-hover-pressure))); }
-        .soft-btn--right .soft-btn__content { transform: skewY(calc(1deg * var(--button-hover-pressure))); }
-
-        .soft-btn--active .soft-btn__content {
-            transform: translateY(var(--press-inset));
-            transition: transform calc(var(--transform-speed) * 0.8) ease-out;
-        }
-        
-        .soft-btn--active.soft-btn--left .soft-btn__content {
-            transform: skewY(calc(-1deg * var(--button-hover-pressure))) translateY(var(--press-inset));
-        }
-        
-        .soft-btn--active.soft-btn--right .soft-btn__content {
-            transform: skewY(calc(1deg * var(--button-hover-pressure))) translateY(var(--press-inset));
+        .brutal-input:focus {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 0 #1a1a1a;
         }
 
-        .variant-lavender {
-            --surface-color: #cec3fd;
-            --side-color: #b489ff;
-            --text-color: #2e1065;
-            --border-color: #a36eff;
-            --border-width: 2px;
+        .brutal-input::placeholder {
+            color: #8a7f75;
+        }
+
+        /* Category Button */
+        .brutal-cat-btn {
+            background: #f5f0eb;
+            border: 3px solid #1a1a1a;
+            box-shadow: 6px 6px 0 0 #1a1a1a;
+            transition: all 0.06s linear;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            padding: 0.8rem 1.2rem;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brutal-cat-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0 0 #1a1a1a;
+        }
+
+        .brutal-cat-btn .arrow {
+            transition: transform 0.2s ease;
+        }
+        .brutal-cat-btn .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        /* Card endpoint */
+        .brutal-endpoint {
+            background: #f5f0eb;
+            border: 3px solid #1a1a1a;
+            box-shadow: 4px 4px 0 0 #1a1a1a;
+            margin-bottom: 0.75rem;
+            transition: all 0.06s linear;
+            overflow: hidden;
+        }
+
+        .brutal-endpoint-header {
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .brutal-endpoint-header:hover {
+            border-bottom-color: #1a1a1a;
+        }
+
+        .brutal-method {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.6rem;
+            border: 2px solid #1a1a1a;
+            background: #f5f0eb;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            min-width: 48px;
+            text-align: center;
+        }
+
+        .brutal-method-get { background: #2a6f97; color: white; }
+        .brutal-method-post { background: #2b9348; color: white; }
+        .brutal-method-put { background: #e85d04; color: white; }
+        .brutal-method-delete { background: #c1121f; color: white; }
+
+        .brutal-endpoint-body {
+            padding: 1rem;
+            border-top: 3px solid #1a1a1a;
+            background: #ece6df;
+        }
+
+        .brutal-response {
+            background: #1a1a1a;
+            border: 3px solid #1a1a1a;
+            box-shadow: 4px 4px 0 0 #1a1a1a;
+            margin-top: 0.75rem;
+            overflow: hidden;
+        }
+
+        .brutal-response-header {
+            background: #2a2a2a;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #1a1a1a;
+        }
+
+        .brutal-response-body {
+            padding: 0.8rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: #e2e8f0;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #0f0f0f;
+        }
+
+        /* Status indicator */
+        .brutal-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 2px solid #1a1a1a;
+            margin-right: 0.5rem;
+        }
+        .brutal-status-success { background: #2b9348; }
+        .brutal-status-error { background: #c1121f; }
+        .brutal-status-waiting { background: #f4d03f; }
+        .brutal-status-idle { background: #8a7f75; }
+
+        /* JSON Syntax Highlighting Brutal */
+        .json-key { color: #f87171; font-weight: 700; }
+        .json-string { color: #a3e635; }
+        .json-number { color: #60a5fa; font-weight: 700; }
+        .json-boolean { color: #c084fc; font-style: italic; }
+        .json-null { color: #94a3b8; }
+
+        .brutal-search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8a7f75;
+            font-size: 1rem;
+        }
+
+        /* Toast */
+        .brutal-toast {
+            background: #f5f0eb;
+            border: 3px solid #1a1a1a;
+            box-shadow: 8px 8px 0 0 #1a1a1a;
+            padding: 0.8rem 1.5rem;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #1a1a1a;
+        }
+
+        /* No results */
+        .brutal-empty {
+            border: 4px dashed #1a1a1a;
+            background: #f5f0eb;
+            padding: 3rem 1rem;
+            text-align: center;
         }
 
         @keyframes outlineSpin { 100% { transform: rotate(360deg); } }
-
-        .category-btn { position: relative; z-index: 1; overflow: hidden; transition: all 0.3s ease; }
-        .category-btn.animating { border-color: transparent !important; }
         .category-btn.animating::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent 0%, #89CFF0 25%, transparent 50%, #B39DDB 75%, transparent 100%);
-            z-index: -2; animation: outlineSpin 0.5s linear infinite;
+            content: ''; position: absolute; inset: -3px; 
+            background: conic-gradient(transparent 0%, #c1121f 25%, transparent 50%, #f4d03f 75%, transparent 100%);
+            z-index: -1; animation: outlineSpin 0.5s linear infinite;
         }
         .category-btn.animating::after {
-            content: ''; position: absolute; inset: 2px; background: white; border-radius: 0.75rem; z-index: -1;
+            content: ''; position: absolute; inset: 0; background: #f5f0eb; z-index: -1;
         }
+        .category-btn { position: relative; z-index: 1; }
 
         #reminder-bar.show-bar {
             display: block;
@@ -216,119 +409,131 @@
             from { transform: translateY(-100%); opacity: 0; }
             to   { transform: translateY(0); opacity: 1; }
         }
+
+        /* Typewriter effect for terminal */
+        .typewriter {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #f4d03f;
+            animation: blink 0.8s step-end infinite;
+        }
     </style>
 </head>
-<body class="text-slate-800 min-h-screen flex flex-col font-sans selection:bg-fmn-blue selection:text-white antialiased">
+<body class="text-brutal-dark min-h-screen flex flex-col font-mono antialiased">
     
     <div id="fixed-bg"></div>
 
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-[60] shadow-sm w-full border-b border-slate-100 animate-slide-down">
+    <!-- Navbar Brutal -->
+    <nav class="bg-[#f5f0eb] border-b-4 border-brutal-dark sticky top-0 z-[60] w-full">
         <div class="max-w-7xl mx-auto px-5 h-16 flex items-center gap-4 justify-between">
-            <div class="flex items-center gap-3 shrink-0 group">
-                <a href="/" class="w-9 h-9 bg-slate-50 text-slate-600 flex items-center justify-center rounded-full hover:bg-fmn-blue hover:text-white transition-all duration-300 shadow-sm border border-slate-200 group-hover:border-fmn-blue hover:-translate-x-1">
+            <div class="flex items-center gap-3 shrink-0">
+                <a href="/" class="w-10 h-10 bg-[#f5f0eb] text-brutal-dark flex items-center justify-center border-3 border-brutal-dark shadow-brutal-sm hover:bg-brutal-accent hover:text-white transition-colors duration-200">
                     <i class="fa-solid fa-arrow-left text-sm"></i>
                 </a>
-                <div class="flex flex-col justify-center">
-                    <h1 id="nav-title" class="font-bold text-lg tracking-tight text-slate-800 leading-none">DIMSZ-API</h1>
-                    <span class="text-[9px] font-semibold text-fmn-dark tracking-widest mt-1">API GATEWAY</span>
+                <div class="flex flex-col">
+                    <h1 id="nav-title" class="font-bold text-lg tracking-tight text-brutal-dark leading-none">DIMSZ-API</h1>
+                    <span class="text-[9px] font-bold text-brutal-accent tracking-widest mt-0.5">BRUTAL GATEWAY</span>
                 </div>
             </div>
 
-            <div class="hidden md:flex flex-1 max-w-xl mx-auto overflow-hidden h-7 bg-slate-100 rounded-full flex items-center relative shadow-inner mx-4 border border-slate-200">
-                <div id="running-text" class="text-slate-600 text-[10px] font-mono font-medium uppercase tracking-wider px-4 whitespace-nowrap animate-marquee inline-block min-w-full">
-                    DIMSZ-API • SYSTEM ONLINE
+            <div class="hidden md:flex flex-1 max-w-xl mx-auto overflow-hidden h-8 bg-[#f5f0eb] border-3 border-brutal-dark relative shadow-brutal-sm">
+                <div id="running-text" class="text-brutal-dark text-[10px] font-bold uppercase tracking-wider px-4 whitespace-nowrap animate-marquee inline-block min-w-full flex items-center">
+                    <span class="text-brutal-accent mr-2">▶</span> DIMSZ-API • SYSTEM ONLINE • BRUTAL MODE ACTIVE
                 </div>
             </div>
 
-            <a href="https://github.com/DanzzAraAra" target="_blank" class="w-9 h-9 bg-slate-50 text-slate-600 hover:bg-slate-800 hover:text-white flex items-center justify-center rounded-full shadow-sm border border-slate-200 transition-all duration-500 hover:rotate-[360deg] hover:scale-110">
+            <a href="https://github.com/DanzzAraAra" target="_blank" class="w-10 h-10 bg-[#f5f0eb] text-brutal-dark hover:bg-brutal-dark hover:text-white flex items-center justify-center border-3 border-brutal-dark shadow-brutal-sm transition-all duration-200 hover:rotate-12">
                 <i class="fa-brands fa-github text-lg"></i>
             </a>
         </div>
     </nav>
 
-    <div id="reminder-bar" class="hidden sticky top-16 z-50 w-full bg-amber-50 border-b border-amber-200 shadow-sm transition-all duration-500">
+    <!-- Reminder Bar -->
+    <div id="reminder-bar" class="hidden sticky top-16 z-50 w-full bg-brutal-yellow border-b-4 border-brutal-dark shadow-brutal-sm">
         <div class="max-w-7xl mx-auto px-5 py-2.5 flex items-center justify-between gap-4">
             <div class="flex items-center gap-3 flex-1 min-w-0">
-                <i class="fa-solid fa-bell text-amber-600 text-lg shrink-0"></i>
-                <span id="reminder-text" class="text-sm font-medium text-amber-800 truncate"></span>
+                <i class="fa-solid fa-bell text-brutal-dark text-lg shrink-0"></i>
+                <span id="reminder-text" class="text-sm font-bold text-brutal-dark truncate"></span>
             </div>
-            <button id="close-reminder" class="text-amber-500 hover:text-amber-800 transition-colors p-1">
-                <i class="fa-solid fa-xmark text-lg"></i>
+            <button id="close-reminder" class="text-brutal-dark hover:text-brutal-accent transition-colors p-1">
+                <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
     </div>
 
-    <main class="flex-grow max-w-7xl mx-auto w-full px-5 py-8 grid lg:grid-cols-12 gap-8 items-start relative z-10 overflow-hidden">
+    <main class="flex-grow max-w-7xl mx-auto w-full px-5 py-8 grid lg:grid-cols-12 gap-8 items-start relative z-10">
         
-        <aside class="lg:col-span-4 lg:sticky lg:top-24 flex flex-col gap-6 h-fit z-40 w-full max-w-full animate-slide-in-right">
+        <!-- Sidebar -->
+        <aside class="lg:col-span-4 lg:sticky lg:top-24 flex flex-col gap-6 h-fit z-40 w-full max-w-full">
             
-            <div class="bg-term-bg border border-slate-700 shadow-xl rounded-xl overflow-hidden flex flex-col h-[400px] group relative font-mono text-xs transition-transform duration-500 hover:shadow-2xl">
-                <div class="bg-term-header px-4 py-2.5 flex items-center gap-2 border-b border-slate-700/50 select-none">
+            <!-- Terminal Brutal -->
+            <div class="brutal-terminal">
+                <div class="brutal-terminal-header flex items-center justify-between">
                     <div class="flex gap-2">
-                        <div class="w-3 h-3 rounded-full bg-red-500 shadow-sm hover:scale-125 transition-transform duration-200"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500 shadow-sm hover:scale-125 transition-transform duration-200 delay-75"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500 shadow-sm hover:scale-125 transition-transform duration-200 delay-150"></div>
+                        <div class="brutal-dot brutal-dot-red"></div>
+                        <div class="brutal-dot brutal-dot-yellow"></div>
+                        <div class="brutal-dot brutal-dot-green"></div>
                     </div>
-                    <div class="flex-1 text-center">
-                        <span class="text-[10px] text-slate-400 font-medium tracking-wider">root@dimsz ~</span>
-                    </div>
+                    <span class="text-[10px] font-bold text-slate-400 tracking-wider">root@dimsz</span>
                 </div>
-                
-                <div id="term-logs" class="p-4 text-term-text overflow-y-auto flex-1 custom-scrollbar space-y-1.5 leading-relaxed"></div>
-                
-                <div id="term-input-line" class="hidden px-4 pb-3 pt-2 border-t border-slate-700/50 bg-term-bg">
-                    <span class="text-green-400 font-medium mr-2">➜</span>
-                    <span class="text-blue-400 font-medium mr-2">~</span>
-                    <span class="inline-block w-2 h-4 bg-slate-400 align-middle animate-blink"></span>
+                <div class="brutal-terminal-body p-3 h-[320px] overflow-y-auto custom-scrollbar space-y-1">
+                    <div id="term-logs" class="leading-relaxed"></div>
+                    <div id="term-input-line" class="hidden flex items-center gap-2 pt-2 border-t-2 border-slate-800">
+                        <span class="text-green-400 font-bold">➜</span>
+                        <span class="text-blue-400 font-bold">~</span>
+                        <span class="inline-block w-2 h-4 bg-yellow-400 align-middle animate-blink"></span>
+                    </div>
                 </div>
             </div>
 
-            <div class="relative group">
-                <input type="text" id="search-input" placeholder="Search Endpoint..." 
-                    class="w-full h-12 border border-slate-200 px-5 pl-11 font-medium text-sm text-slate-700 rounded-xl shadow-sm focus:outline-none focus:ring-4 focus:ring-fmn-blue/10 focus:border-fmn-blue transition-all duration-300 placeholder:text-slate-400 bg-white/90 backdrop-blur hover:border-slate-300 hover:shadow-md">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-[14px] text-slate-400 group-hover:text-fmn-blue transition-all duration-300 group-hover:scale-110"></i>
+            <!-- Search Input -->
+            <div class="relative">
+                <input type="text" id="search-input" placeholder="SEARCH ENDPOINT..." 
+                    class="brutal-input pl-12">
+                <i class="fa-solid fa-magnifying-glass brutal-search-icon"></i>
             </div>
 
-            <div class="bg-white/80 backdrop-blur-md border border-white/50 p-5 shadow-soft rounded-xl relative overflow-hidden">
-                <div class="absolute -right-10 -top-10 w-32 h-32 bg-fmn-blue/10 rounded-full blur-2xl animate-pulse-slow"></div>
-                <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-fmn-purple/10 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 2s;"></div>
-                <div class="space-y-3 relative z-10">
-                    <div class="flex justify-between items-center text-xs font-semibold bg-white p-3.5 rounded-lg text-slate-600 border border-slate-100 shadow-card hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                        <span class="flex items-center gap-2"><i class="fa-regular fa-clock text-fmn-blue"></i> TIME (WIB)</span>
-                        <span id="server-time" class="text-slate-800 font-mono font-bold tracking-tight">--:--:--</span>
+            <!-- Info Box -->
+            <div class="brutal-card p-5 relative overflow-hidden">
+                <div class="absolute -right-8 -top-8 w-24 h-24 bg-brutal-accent/10 rotate-45"></div>
+                <div class="absolute -left-8 -bottom-8 w-24 h-24 bg-brutal-yellow/10 rotate-45"></div>
+                <div class="relative z-10 space-y-3">
+                    <div class="flex justify-between items-center text-xs font-bold bg-[#f5f0eb] p-3 border-3 border-brutal-dark shadow-brutal-sm">
+                        <span class="flex items-center gap-2"><i class="fa-regular fa-clock text-brutal-accent"></i> TIME</span>
+                        <span id="server-time" class="text-brutal-dark font-mono">--:--:--</span>
                     </div>
-                    <div class="flex justify-between items-center text-xs font-semibold bg-white p-3.5 rounded-lg text-slate-600 border border-slate-100 shadow-card hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                        <span class="flex items-center gap-2"><i class="fa-regular fa-calendar text-fmn-blue"></i> DATE</span>
-                        <span id="server-date" class="text-slate-800 font-mono tracking-tight">--/--/----</span>
+                    <div class="flex justify-between items-center text-xs font-bold bg-[#f5f0eb] p-3 border-3 border-brutal-dark shadow-brutal-sm">
+                        <span class="flex items-center gap-2"><i class="fa-regular fa-calendar text-brutal-accent"></i> DATE</span>
+                        <span id="server-date" class="text-brutal-dark font-mono">--/--/----</span>
                     </div>
-                    <div class="flex justify-between items-center text-xs font-semibold bg-white p-3.5 rounded-lg text-slate-600 border border-slate-100 shadow-card hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                        <span class="flex items-center gap-2"><i class="fa-solid fa-chart-line text-fmn-purple"></i> VISITOR</span>
-                        <span id="stat-visitors" class="text-fmn-purple font-bold text-sm">0</span>
+                    <div class="flex justify-between items-center text-xs font-bold bg-[#f5f0eb] p-3 border-3 border-brutal-dark shadow-brutal-sm">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-users text-brutal-accent"></i> VISITOR</span>
+                        <span id="stat-visitors" class="text-brutal-accent font-bold">0</span>
                     </div>
                 </div>
             </div>
         </aside>
 
+        <!-- Main Content -->
         <section class="lg:col-span-8 min-h-[50vh] w-full max-w-full">
             <div id="api-container" class="space-y-5 opacity-0 translate-y-4 transition-all duration-700 w-full"></div>
             
-            <div id="no-results" class="hidden flex-col items-center justify-center py-20 text-center opacity-70">
-                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4 transition-transform hover:scale-110">
-                    <i class="fa-solid fa-magnifying-glass text-3xl text-slate-400"></i>
-                </div>
-                <p class="font-semibold text-lg text-slate-600">No endpoints found</p>
-                <p class="text-sm text-slate-400 mt-1">Try searching with a different keyword</p>
+            <div id="no-results" class="hidden brutal-empty">
+                <i class="fa-solid fa-magnifying-glass text-4xl text-brutal-dark/30 mb-3"></i>
+                <p class="font-bold text-lg">NO ENDPOINTS FOUND</p>
+                <p class="text-sm text-brutal-dark/60 mt-1">Try a different keyword</p>
             </div>
         </section>
     </main>
 
-    <footer class="text-center py-6 text-slate-400 text-xs border-t border-slate-200/50 mt-8">
-        &copy; 2026 <span class="text-fmn-dark font-semibold">Dimsz-Api</span> · All rights reserved
+    <footer class="text-center py-6 text-brutal-dark/60 text-xs border-t-4 border-brutal-dark/20 mt-8">
+        <span class="text-brutal-accent font-bold">◼</span> 2026 <span class="text-brutal-dark font-bold">Dimsz-Api</span> · Brutalist Edition
     </footer>
 
+    <!-- Toast -->
     <div id="custom-toast" class="fixed bottom-6 right-6 z-[100] transform translate-y-32 opacity-0 transition-all duration-300">
-        <div class="bg-slate-800 text-white px-5 py-3.5 font-medium text-sm shadow-xl rounded-xl flex items-center gap-3 border border-slate-700 animate-slide-in-right">
-            <div class="w-6 h-6 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center"><i class="fa-solid fa-check text-xs"></i></div>
+        <div class="brutal-toast flex items-center gap-3">
+            <i class="fa-solid fa-check text-brutal-green text-lg"></i>
             <span id="toast-message" class="tracking-wide">SUCCESS</span>
         </div>
     </div>
@@ -353,54 +558,9 @@
                     loadReminder();
                     setSearch();
                 } catch (e) {
-                    document.getElementById('term-logs').innerHTML = `<span class="text-red-400 font-bold px-1">SYSTEM FAILURE</span><br>${e.message}`;
+                    document.getElementById('term-logs').innerHTML = `<span class="text-red-400 font-bold">✖ SYSTEM FAILURE</span><br>${e.message}`;
                 }
             }
-        }
-
-        function initSoftButtons() {
-            const buttons = document.querySelectorAll('.soft-btn');
-            buttons.forEach(btn => {
-                const handlePointer = (e) => {
-                    if (e.type === 'pointerleave' || e.type === 'pointercancel' || e.type === 'pointerup') {
-                        btn.classList.remove('soft-btn--active', 'soft-btn--left', 'soft-btn--right', 'soft-btn--middle');
-                        try { btn.releasePointerCapture(e.pointerId); } catch(err){}
-                        return;
-                    }
-                    const rect = btn.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const w = rect.width;
-                    if(e.type === 'pointerdown') {
-                        btn.classList.add('soft-btn--active');
-                        try { btn.setPointerCapture(e.pointerId); } catch(err){}
-                    }
-                    btn.classList.remove('soft-btn--left', 'soft-btn--right', 'soft-btn--middle');
-                    if (x < w * 0.33) btn.classList.add('soft-btn--left');
-                    else if (x > w * 0.66) btn.classList.add('soft-btn--right');
-                    else btn.classList.add('soft-btn--middle');
-                };
-                btn.addEventListener('pointerdown', handlePointer);
-                btn.addEventListener('pointermove', (e) => {
-                    if(btn.classList.contains('soft-btn--active')) handlePointer(e);
-                });
-                btn.addEventListener('pointerup', handlePointer);
-                btn.addEventListener('pointerleave', handlePointer);
-                btn.addEventListener('pointercancel', handlePointer);
-            });
-        }
-
-        function messeg(msg) {
-            const toast = document.getElementById('custom-toast');
-            const msgBox = document.getElementById('toast-message');
-            if(!toast || !msgBox) return;
-            msgBox.innerText = msg;
-            toast.classList.remove('translate-y-32', 'opacity-0');
-            toast.classList.add('animate-fade-in-up');
-            if (toastTimeout) clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => { 
-                toast.classList.add('translate-y-32', 'opacity-0');
-                toast.classList.remove('animate-fade-in-up');
-            }, 3000);
         }
 
         function startWIBClock() {
@@ -421,9 +581,9 @@
 
                 const runningText = document.getElementById('running-text');
                 if (data?.message) {
-                    runningText.innerText = data.message.toUpperCase();
+                    runningText.innerHTML = `<span class="text-brutal-accent mr-2">▶</span> ${data.message.toUpperCase()}`;
                 } else {
-                    runningText.innerText = 'DIMSZ-API • SYSTEM ONLINE';
+                    runningText.innerHTML = `<span class="text-brutal-accent mr-2">▶</span> DIMSZ-API • SYSTEM ONLINE • BRUTAL MODE ACTIVE`;
                 }
 
                 const bar = document.getElementById('reminder-bar');
@@ -460,7 +620,7 @@
                     bar.classList.remove('show-bar');
                 }
                 const runningText = document.getElementById('running-text');
-                if (runningText) runningText.innerText = 'DIMSZ-API • SYSTEM ONLINE';
+                if (runningText) runningText.innerHTML = `<span class="text-brutal-accent mr-2">▶</span> DIMSZ-API • SYSTEM ONLINE`;
             }
         }
 
@@ -472,9 +632,9 @@
             if(type === 'error') color = "text-red-400";
             else if(type === 'success') color = "text-emerald-400";
             else if(type === 'warn') color = "text-amber-400";
-            else if(type === 'cmd') color = "text-white font-medium";
+            else if(type === 'cmd') color = "text-white font-bold";
             else if(type === 'system') color = "text-slate-500";
-            line.className = `${color} break-all font-mono`;
+            line.className = `${color} break-all font-mono text-xs`;
             line.innerHTML = message;
             logs.appendChild(line);
             logs.scrollTop = logs.scrollHeight;
@@ -485,10 +645,10 @@
             if(!logs) return;
             
             const cmdLine = document.createElement('div');
-            cmdLine.className = 'text-slate-300 break-all font-mono';
+            cmdLine.className = 'text-slate-300 break-all font-mono text-xs';
             cmdLine.innerHTML = '<span class="text-green-400">➜</span> <span class="text-blue-400">~</span> ';
             const typeSpan = document.createElement('span');
-            typeSpan.className = 'text-white font-medium';
+            typeSpan.className = 'text-white font-bold';
             cmdLine.appendChild(typeSpan);
             logs.appendChild(cmdLine);
 
@@ -557,7 +717,7 @@
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const value = Math.floor(progress * (end - start) + start);
-                element.innerText = value.toLocaleString('id-ID') + (elementId.startsWith('time-') ? 'ms' : '');
+                element.innerText = value.toLocaleString('id-ID');
                 if (progress < 1) window.requestAnimationFrame(step);
             };
             window.requestAnimationFrame(step);
@@ -572,9 +732,9 @@
                 if (val === '') {
                     document.querySelectorAll('.api-section').forEach(section => {
                         section.classList.remove('hidden'); 
-                        section.querySelector('.api-section-grid').classList.add('hidden'); 
-                        section.querySelector('.cat-arrow').classList.remove('rotate-180'); 
-                        section.querySelectorAll('.api-card-wrapper').forEach(c => c.classList.remove('hidden')); 
+                        section.querySelector('.api-section-grid').classList.remove('hidden'); 
+                        section.querySelector('.arrow').classList.remove('open'); 
+                        section.querySelectorAll('.brutal-endpoint').forEach(c => c.classList.remove('hidden')); 
                     });
                     if(noResults) noResults.classList.add('hidden');
                     return;
@@ -582,9 +742,9 @@
                 let anyVisible = false;
                 document.querySelectorAll('.api-section').forEach(section => {
                     const grid = section.querySelector('.api-section-grid');
-                    const arrow = section.querySelector('.cat-arrow');
+                    const arrow = section.querySelector('.arrow');
                     let match = 0;
-                    section.querySelectorAll('.api-card-wrapper').forEach(card => {
+                    section.querySelectorAll('.brutal-endpoint').forEach(card => {
                         const txt = card.getAttribute('data-search').toLowerCase();
                         if (txt.includes(val)) { 
                             card.classList.remove('hidden');
@@ -599,7 +759,7 @@
                         section.classList.remove('hidden');
                         grid.classList.remove('hidden'); 
                         grid.classList.add('animate-fade-in-up');
-                        arrow.classList.add('rotate-180');
+                        arrow.classList.add('open');
                         anyVisible = true;
                     } else {
                         section.classList.add('hidden');
@@ -625,26 +785,24 @@
                 section.style.animationDelay = `${Object.keys(tags).indexOf(cat) * 0.1}s`;
                 
                 section.innerHTML = `
-                    <button id="btn-${catId}" onclick="toggleCategory('${catId}')" class="category-btn w-full flex items-center justify-between bg-white text-slate-700 p-4 rounded-xl shadow-card border border-slate-200 hover:border-slate-300 transition-all duration-300 group mb-3">
-                        <div class="relative z-10 flex items-center gap-4 w-full">
-                            <div class="w-10 h-10 bg-slate-50 text-slate-500 rounded-lg flex items-center justify-center text-lg group-hover:bg-fmn-blue group-hover:text-white transition-colors border border-slate-100 group-hover:border-transparent group-hover:scale-110 duration-300">
-                                <i class="fa-solid fa-folder-open"></i>
-                            </div>
-                            <h2 class="text-base font-semibold tracking-wide text-slate-800 flex-1 text-left">${cat}</h2>
-                            <div class="flex items-center gap-3">
-                                <span class="text-[10px] font-mono bg-slate-100 text-slate-500 border border-slate-200 px-2 py-1 rounded font-semibold transition-colors group-hover:bg-fmn-blue/10 group-hover:text-fmn-dark group-hover:border-fmn-blue/20">${routes.length} EPS</span>
-                                <i id="arrow-${catId}" class="cat-arrow fa-solid fa-chevron-down transition-transform duration-300 text-slate-400 group-hover:text-fmn-blue"></i>
-                            </div>
-                        </div>
+                    <button onclick="toggleCategory('${catId}')" class="category-btn brutal-cat-btn w-full">
+                        <span class="flex items-center gap-3 relative z-10">
+                            <i class="fa-solid fa-folder-open text-brutal-accent"></i>
+                            ${cat}
+                            <span class="text-[10px] bg-brutal-dark text-[#f5f0eb] px-2 py-0.5 border-2 border-brutal-dark shadow-brutal-sm">${routes.length}</span>
+                        </span>
+                        <i id="arrow-${catId}" class="arrow fa-solid fa-chevron-down text-brutal-dark/50"></i>
                     </button>
-                    <div id="grid-${catId}" class="api-section-grid grid grid-cols-1 gap-2 hidden mb-6 pl-1 w-full"></div>
+                    <div id="grid-${catId}" class="api-section-grid grid grid-cols-1 gap-3 hidden mt-4 pl-1 w-full"></div>
                 `;
                 
                 const grid = section.querySelector('.api-section-grid');
                 
                 routes.forEach((route, idx) => {
                     const id = `${cat}-${idx}`.replace(/\s+/g, '-');
-                    const methodColor = route.method === 'GET' ? 'bg-sky-500 text-white border-sky-600' : route.method === 'POST' ? 'bg-emerald-500 text-white border-emerald-600' : 'bg-amber-500 text-white border-amber-600';
+                    const methodClass = route.method === 'GET' ? 'brutal-method-get' : 
+                                      route.method === 'POST' ? 'brutal-method-post' : 
+                                      route.method === 'PUT' ? 'brutal-method-put' : 'brutal-method-delete';
                     
                     let inputs = '';
                     let copyUrl = route.endpoint;
@@ -654,72 +812,59 @@
                     }
 
                     if (route.params?.length) {
-                        inputs = `<div class="bg-slate-50 p-4 border-y border-slate-100 grid gap-4 w-full animate-fade-in-up">` + 
+                        inputs = `<div class="bg-[#d4cbc2] p-4 border-t-3 border-brutal-dark grid gap-3 w-full">` + 
                         route.params.map(p => `
-                        <div class="min-w-0 group/input">
-                            <label class="text-[11px] font-semibold text-slate-500 tracking-wide mb-1.5 block transition-colors group-focus-within/input:text-fmn-blue">${p.name} ${p.required?'<span class="text-red-400">*</span>':''}</label>
+                        <div class="min-w-0">
+                            <label class="text-[10px] font-bold text-brutal-dark tracking-wide mb-1 block">${p.name} ${p.required?'<span class="text-brutal-accent">*</span>':''}</label>
                             <input type="text" id="input-${id}-${p.name}" 
                                 placeholder="${p.description ? p.description : 'Enter value...'}" 
-                                class="w-full min-w-0 border border-slate-200 p-2.5 text-sm rounded-lg focus:border-fmn-blue focus:ring-4 focus:ring-fmn-blue/10 focus:outline-none bg-white shadow-sm max-w-full transition-all">
+                                class="w-full border-3 border-brutal-dark p-2 text-sm bg-[#f5f0eb] shadow-brutal-sm focus:outline-none focus:translate-x-1 focus:translate-y-1 transition-all">
                         </div>`).join('') + `</div>`;
                     }
 
                     const card = document.createElement('div');
-                    card.className = 'api-card-wrapper w-full bg-white border border-slate-200 rounded-xl hover:border-slate-300 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md';
+                    card.className = 'brutal-endpoint w-full';
                     card.setAttribute('data-search', `${route.name} ${route.endpoint} ${cat}`);
                     
                     card.innerHTML = `
-                        <div class="p-3 cursor-pointer select-none hover:bg-slate-50/50 transition-colors group" onclick="toggle('${id}')">
-                            <div class="flex justify-between items-center gap-3">
-                                <div class="flex items-center gap-3 overflow-hidden">
-                                    <span class="px-2 py-1 text-[10px] font-bold ${methodColor} rounded border shadow-sm font-mono tracking-wide w-14 text-center shrink-0 transition-transform group-hover:scale-105">${route.method}</span>
-                                    <div class="flex flex-col min-w-0">
-                                        <code class="font-semibold text-[13px] sm:text-sm truncate font-mono text-slate-700 transition-colors group-hover:text-fmn-dark">${route.endpoint}</code>
-                                        <span class="text-[11px] text-slate-500 mt-0.5 truncate">${route.name}</span>
-                                    </div>
+                        <div class="brutal-endpoint-header" onclick="toggle('${id}')">
+                            <div class="flex items-center gap-3 overflow-hidden flex-1">
+                                <span class="brutal-method ${methodClass} shrink-0">${route.method}</span>
+                                <div class="flex flex-col min-w-0">
+                                    <code class="font-bold text-sm truncate text-brutal-dark">${route.endpoint}</code>
+                                    <span class="text-[10px] text-brutal-dark/60 truncate">${route.name}</span>
                                 </div>
-                                <i id="icon-${id}" class="fa-solid fa-chevron-right text-[11px] text-slate-300 transition-transform duration-300 shrink-0 mr-1 group-hover:text-fmn-blue"></i>
                             </div>
+                            <i id="icon-${id}" class="fa-solid fa-chevron-right text-brutal-dark/30 transition-transform duration-300"></i>
                         </div>
                         
-                        <div id="body-${id}" class="hidden animate-slide-down w-full">
+                        <div id="body-${id}" class="brutal-endpoint-body hidden">
                             ${inputs}
-                            <div class="p-4 flex gap-4 bg-white w-full items-center border-t border-slate-50">
-                                <button id="btn-exec-${id}" onclick="testReq(this, '${route.endpoint}', '${route.method}', '${id}')" class="soft-btn variant-lavender flex-1 h-[42px] w-full">
-                                    <span class="soft-btn__wrapper">
-                                        <span class="soft-btn__content">
-                                            <span class="soft-btn__inner text-[11px] font-bold tracking-wider">
-                                                <i class="fa-solid fa-play text-xs"></i> EXECUTE
-                                            </span>
-                                        </span>
-                                    </span>
+                            <div class="flex gap-3 items-center">
+                                <button onclick="testReq(this, '${route.endpoint}', '${route.method}', '${id}')" class="brutal-btn brutal-btn-primary flex-1 text-xs">
+                                    <i class="fa-solid fa-play"></i> EXECUTE
                                 </button>
-                                <button onclick="copy('${copyUrl}')" class="w-[42px] h-[42px] flex items-center justify-center border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 rounded-lg transition-all shadow-sm hover:text-fmn-dark hover:border-fmn-blue hover:scale-110" title="Copy URL">
+                                <button onclick="copy('${copyUrl}')" class="brutal-btn-icon w-12 h-12" title="Copy URL">
                                     <i class="fa-regular fa-copy"></i>
                                 </button>
                             </div>
 
-                            <div id="res-area-${id}" class="response-area hidden mx-4 mb-4 rounded-xl overflow-hidden bg-term-bg border border-slate-700 shadow-inner relative max-w-[calc(100%-2rem)]">
-                                <div class="bg-term-header px-4 py-2 flex items-center justify-between border-b border-slate-700/50">
-                                    <div class="flex gap-2">
-                                        <div class="w-2.5 h-2.5 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors"></div>
-                                        <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors"></div>
-                                        <div class="w-2.5 h-2.5 rounded-full bg-green-500/80 hover:bg-green-500 transition-colors"></div>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <div id="status-indicator-${id}" class="status-indicator status-waiting"></div>
-                                        <span id="status-${id}" class="text-[10px] font-mono font-bold text-slate-400">IDLE</span>
-                                        <span class="text-slate-600 text-[10px]">&bull;</span>
+                            <div id="res-area-${id}" class="brutal-response hidden">
+                                <div class="brutal-response-header">
+                                    <div class="flex items-center gap-2">
+                                        <span id="status-indicator-${id}" class="brutal-status brutal-status-idle"></span>
+                                        <span id="status-${id}" class="text-[10px] font-bold text-slate-400">IDLE</span>
+                                        <span class="text-slate-600">|</span>
                                         <span id="time-${id}" class="text-[10px] font-mono text-slate-400">0ms</span>
                                     </div>
-                                    <div class="flex gap-3">
-                                         <a id="dl-btn-${id}" class="hidden text-slate-400 hover:text-white cursor-pointer transition-transform hover:scale-125"><i class="fa-solid fa-download text-xs"></i></a>
-                                         <button onclick="copyRes('${id}')" class="text-slate-400 hover:text-white transition-transform hover:scale-125"><i class="fa-regular fa-clone text-xs"></i></button>
-                                         <button onclick="reset('${id}')" class="text-slate-400 hover:text-red-400 transition-transform hover:rotate-90"><i class="fa-solid fa-xmark text-sm"></i></button>
+                                    <div class="flex gap-2">
+                                        <a id="dl-btn-${id}" class="hidden text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-download text-xs"></i></a>
+                                        <button onclick="copyRes('${id}')" class="text-slate-400 hover:text-white"><i class="fa-regular fa-clone text-xs"></i></button>
+                                        <button onclick="reset('${id}')" class="text-slate-400 hover:text-red-400"><i class="fa-solid fa-xmark text-sm"></i></button>
                                     </div>
                                 </div>
-                                <div class="p-3 font-mono text-[12px] min-h-fit max-h-[200px] overflow-y-auto custom-scrollbar bg-term-bg break-all whitespace-pre-wrap">
-                                    <div class="flex items-center gap-2 mb-2 mt-0.5 text-slate-400 select-none border-b border-slate-800 pb-2 flex-wrap animate-slide-in-right">
+                                <div class="brutal-response-body">
+                                    <div class="flex items-center gap-2 mb-2 text-slate-500 border-b border-slate-800 pb-2 text-[10px]">
                                         <span class="text-green-400 font-bold">➜</span>
                                         <span class="text-slate-500">curl -X ${route.method}</span>
                                         <span class="text-sky-300 break-all">${route.endpoint}</span>
@@ -732,13 +877,12 @@
                 });
                 container.appendChild(section);
             }
-            initSoftButtons();
         }
 
         window.toggleCategory = (catId) => {
             const grid = document.getElementById(`grid-${catId}`);
             const arrow = document.getElementById(`arrow-${catId}`);
-            const btn = document.getElementById(`btn-${catId}`);
+            const btn = document.querySelector(`[onclick="toggleCategory('${catId}')"]`);
             if(btn) {
                 btn.classList.add('animating');
                 setTimeout(() => btn.classList.remove('animating'), 500);
@@ -746,10 +890,10 @@
             if(grid.classList.contains('hidden')) { 
                 grid.classList.remove('hidden'); 
                 grid.classList.add('animate-fade-in-up');
-                arrow.classList.add('rotate-180');
+                arrow.classList.add('open');
             } else { 
                 grid.classList.add('hidden'); 
-                arrow.classList.remove('rotate-180');
+                arrow.classList.remove('open');
             }
         };
         
@@ -768,154 +912,39 @@
         
         window.copy = (txt) => { 
             navigator.clipboard.writeText(window.location.origin + txt); 
-            messeg("URL COPIED"); 
+            showToast("URL COPIED"); 
         };
         
         window.copyRes = (id) => { 
             const out = document.getElementById(`output-${id}`); 
             if (out.innerText) { 
                 navigator.clipboard.writeText(out.innerText); 
-                messeg("RESPONSE COPIED"); 
+                showToast("RESPONSE COPIED"); 
             }
         };
         
         window.reset = (id) => { 
             const resArea = document.getElementById(`res-area-${id}`);
-            resArea.classList.remove('show', 'success', 'error', 'showing');
             resArea.classList.add('hidden');
             document.getElementById(`output-${id}`).innerHTML = ''; 
-            document.getElementById(`status-indicator-${id}`).className = 'status-indicator status-waiting';
+            document.getElementById(`status-indicator-${id}`).className = 'brutal-status brutal-status-idle';
             document.getElementById(`time-${id}`).innerText = '0ms';
+            document.getElementById(`status-${id}`).innerText = 'IDLE';
         };
 
-        function startNpmLoading(element, id) {
-            element.innerHTML = `
-                <div class="py-1 flex items-center font-mono text-slate-400 text-xs tracking-wide select-none">
-                    <span id="loading-text-${id}"></span><span class="inline-block w-1.5 h-3.5 bg-slate-500 ml-1 animate-blink align-middle"></span>
-                </div>
-            `;
-            
-            const txt = "Loading...";
-            let i = 0;
-            const target = document.getElementById(`loading-text-${id}`);
-            
-            const interval = setInterval(() => {
-                if (!target) return;
-                target.textContent = txt.slice(0, i);
-                i++;
-                if (i > txt.length + 1) {
-                    i = 0; 
-                }
-            }, 250);
-
-            return () => clearInterval(interval);
+        function showToast(msg) {
+            const toast = document.getElementById('custom-toast');
+            const msgBox = document.getElementById('toast-message');
+            if(!toast || !msgBox) return;
+            msgBox.innerText = msg;
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            toast.classList.add('animate-fade-in-up');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => { 
+                toast.classList.add('translate-y-32', 'opacity-0');
+                toast.classList.remove('animate-fade-in-up');
+            }, 3000);
         }
-
-        window.testReq = async (btn, url, method, id) => {
-            if (btn.disabled) return;
-            const out = document.getElementById(`output-${id}`);
-            const status = document.getElementById(`status-${id}`);
-            const time = document.getElementById(`time-${id}`);
-            const dlBtn = document.getElementById(`dl-btn-${id}`);
-            const resArea = document.getElementById(`res-area-${id}`);
-            const statusIndicator = document.getElementById(`status-indicator-${id}`);
-            
-            const btnInner = btn.querySelector('.soft-btn__inner');
-            const originalBtnText = btnInner.innerHTML;
-            btn.disabled = true; 
-            btnInner.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> PROCESSING';
-
-            resArea.classList.remove('hidden', 'success', 'error');
-            resArea.classList.add('show', 'showing');
-            statusIndicator.className = 'status-indicator status-waiting';
-            status.innerText = 'RUNNING...'; 
-            status.className = 'text-[10px] font-mono font-bold text-amber-400';
-
-            const stopLoading = startNpmLoading(out, id);
-            
-            const params = {};
-            document.querySelectorAll(`[id^="input-${id}-"]`).forEach(i => { 
-                if(i.value) {
-                    params[i.id.split(`input-${id}-`)[1]] = i.value;
-                    i.classList.add('border-emerald-400', 'bg-emerald-50/50');
-                    setTimeout(() => i.classList.remove('border-emerald-400', 'bg-emerald-50/50'), 1000);
-                }
-            });
-            
-            let fetchUrl = url + (method === 'GET' && Object.keys(params).length ? '?' + new URLSearchParams(params) : '');
-            let opts = { 
-                method, 
-                ...(method !== 'GET' ? { headers: {'Content-Type': 'application/json'}, body: JSON.stringify(params) } : {}) 
-            };
-            
-            terminalLog(`REQ: ${method} ${fetchUrl}`, 'warn');
-
-            let startTime = Date.now();
-            let timerInterval = setInterval(() => {
-                const elapsed = Date.now() - startTime;
-                time.innerText = `${elapsed}ms`;
-            }, 30); 
-
-            try {
-                const req = await fetch(fetchUrl, opts);
-                
-                clearInterval(timerInterval);
-                stopLoading();
-                
-                const duration = Date.now() - startTime;
-                animateCounter(`time-${id}`, duration - 50 > 0 ? duration - 50 : 0, duration, 200);
-                
-                if (req.ok) {
-                    statusIndicator.className = 'status-indicator status-success';
-                    status.innerText = `${req.status} ${req.statusText}`;
-                    status.className = 'text-[10px] font-mono font-bold text-emerald-400';
-                    resArea.classList.add('success');
-                } else {
-                    statusIndicator.className = 'status-indicator status-error';
-                    status.innerText = `${req.status} ${req.statusText}`;
-                    status.className = 'text-[10px] font-mono font-bold text-red-400';
-                    resArea.classList.add('error');
-                }
-
-                terminalLog(`RES: [${req.status}] ${fetchUrl}`, req.ok ? 'success' : 'error');
-
-                const type = req.headers.get('content-type');
-                if (type?.includes('json')) {
-                    const json = await req.json();
-                    out.innerHTML = syntaxHighlight(json);
-                    out.querySelectorAll('.json-key, .json-string, .json-number, .json-boolean, .json-null').forEach((el, idx) => {
-                        el.style.animationDelay = `${idx * 0.02}s`;
-                        el.classList.add('animate-slide-in-right');
-                    });
-                } else if (type?.startsWith('image')) {
-                    const blob = await req.blob();
-                    const urlObj = URL.createObjectURL(blob);
-                    dlBtn.href = urlObj; 
-                    dlBtn.download = `img-${Date.now()}.jpg`; 
-                    dlBtn.classList.remove('hidden');
-                    out.innerHTML = `<div class="flex justify-center p-2 animate-fade-in-up">
-                                        <img src="${urlObj}" class="max-w-full rounded-lg border border-slate-700 max-h-[300px] transform transition-transform duration-500 hover:scale-105 shadow-xl">
-                                     </div>`;
-                } else {
-                    const text = await req.text();
-                    typewriterEffect(`output-${id}`, text, 5);
-                }
-            } catch (err) {
-                clearInterval(timerInterval);
-                stopLoading();
-                const duration = Date.now() - startTime;
-                time.innerText = `${duration}ms`;
-                statusIndicator.className = 'status-indicator status-error';
-                terminalLog(`ERR: ${err.message}`, 'error');
-                status.innerText = 'ERROR'; 
-                status.className = 'text-[10px] font-mono font-bold text-red-400';
-                resArea.classList.add('error');
-                out.innerHTML = `<span class="text-red-400 font-semibold">${err.message}</span>`;
-            } finally {
-                btn.disabled = false; 
-                btnInner.innerHTML = originalBtnText;
-            }
-        };
 
         function typewriterEffect(elementId, text, speed = 10) {
             const element = document.getElementById(elementId);
@@ -944,6 +973,98 @@
                 return `<span class="${cls}">${match}</span>`;
             });
         }
+
+        window.testReq = async (btn, url, method, id) => {
+            if (btn.disabled) return;
+            const out = document.getElementById(`output-${id}`);
+            const status = document.getElementById(`status-${id}`);
+            const time = document.getElementById(`time-${id}`);
+            const dlBtn = document.getElementById(`dl-btn-${id}`);
+            const resArea = document.getElementById(`res-area-${id}`);
+            const statusIndicator = document.getElementById(`status-indicator-${id}`);
+            
+            const originalText = btn.innerHTML;
+            btn.disabled = true; 
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> RUNNING';
+
+            resArea.classList.remove('hidden');
+            statusIndicator.className = 'brutal-status brutal-status-waiting';
+            status.innerText = 'RUNNING...'; 
+            status.className = 'text-[10px] font-bold text-amber-400';
+
+            const params = {};
+            document.querySelectorAll(`[id^="input-${id}-"]`).forEach(i => { 
+                if(i.value) {
+                    params[i.id.split(`input-${id}-`)[1]] = i.value;
+                    i.classList.add('border-brutal-green');
+                    setTimeout(() => i.classList.remove('border-brutal-green'), 800);
+                }
+            });
+            
+            let fetchUrl = url + (method === 'GET' && Object.keys(params).length ? '?' + new URLSearchParams(params) : '');
+            let opts = { 
+                method, 
+                ...(method !== 'GET' ? { headers: {'Content-Type': 'application/json'}, body: JSON.stringify(params) } : {}) 
+            };
+            
+            terminalLog(`REQ: ${method} ${fetchUrl}`, 'warn');
+
+            let startTime = Date.now();
+            let timerInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                time.innerText = `${elapsed}ms`;
+            }, 30); 
+
+            try {
+                const req = await fetch(fetchUrl, opts);
+                
+                clearInterval(timerInterval);
+                const duration = Date.now() - startTime;
+                animateCounter(`time-${id}`, duration - 50 > 0 ? duration - 50 : 0, duration, 200);
+                
+                if (req.ok) {
+                    statusIndicator.className = 'brutal-status brutal-status-success';
+                    status.innerText = `${req.status} OK`;
+                    status.className = 'text-[10px] font-bold text-emerald-400';
+                } else {
+                    statusIndicator.className = 'brutal-status brutal-status-error';
+                    status.innerText = `${req.status} ERROR`;
+                    status.className = 'text-[10px] font-bold text-red-400';
+                }
+
+                terminalLog(`RES: [${req.status}] ${fetchUrl}`, req.ok ? 'success' : 'error');
+
+                const type = req.headers.get('content-type');
+                if (type?.includes('json')) {
+                    const json = await req.json();
+                    out.innerHTML = syntaxHighlight(json);
+                } else if (type?.startsWith('image')) {
+                    const blob = await req.blob();
+                    const urlObj = URL.createObjectURL(blob);
+                    dlBtn.href = urlObj; 
+                    dlBtn.download = `img-${Date.now()}.jpg`; 
+                    dlBtn.classList.remove('hidden');
+                    out.innerHTML = `<div class="flex justify-center p-2">
+                                        <img src="${urlObj}" class="max-w-full border-3 border-brutal-dark max-h-[300px]">
+                                     </div>`;
+                } else {
+                    const text = await req.text();
+                    typewriterEffect(`output-${id}`, text, 8);
+                }
+            } catch (err) {
+                clearInterval(timerInterval);
+                const duration = Date.now() - startTime;
+                time.innerText = `${duration}ms`;
+                statusIndicator.className = 'brutal-status brutal-status-error';
+                terminalLog(`ERR: ${err.message}`, 'error');
+                status.innerText = 'ERROR'; 
+                status.className = 'text-[10px] font-bold text-red-400';
+                out.innerHTML = `<span class="text-red-400 font-bold">${err.message}</span>`;
+            } finally {
+                btn.disabled = false; 
+                btn.innerHTML = originalText;
+            }
+        };
     </script>
 </body>
 </html>

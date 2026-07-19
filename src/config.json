@@ -142,6 +142,15 @@
         "filename": "ytstalker",
         "method": "GET",
         "params": [{ "name": "username", "required": true, "description": "Username YouTube" }]
+      },
+      {
+        "name": "Free Fire Stalker",
+        "endpoint": "/api/stalker/ffstalk",
+        "filename": "ffstalk",
+        "method": "GET",
+        "params": [
+          { "name": "id", "required": true, "description": "ID Player Free Fire" }
+        ]
       }
     ],
     "search": [

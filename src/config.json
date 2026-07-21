@@ -201,6 +201,15 @@
           { "name": "text", "required": true, "description": "Teks yang akan diubah menjadi suara" },
           { "name": "lang", "required": false, "description": "Bahasa (default: id)" }
         ]
+      },
+      {
+        "name": "Spam OTP",
+        "endpoint": "/api/tools/spamotp",
+        "filename": "spamotp",
+        "method": "GET",
+        "params": [
+          { "name": "phone", "required": true, "description": "Nomor target (diawali 62, contoh: 628123456789)" }
+        ]
       }
     ],
     "download": [
